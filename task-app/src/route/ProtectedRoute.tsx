@@ -1,13 +1,13 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import * as React from "react";
 import { User } from "../types";
 import UserContext from "../components/context/UserContext";
-import { ReactNode, useContext } from "react";
+import { useContext } from "react";
 
 interface IProtectedRouteProps {
   redirectPath?: string;
-  children: any;
+  children: JSX.Element;
 }
 
 const ProtectedRoute: React.FC<IProtectedRouteProps> = ({
