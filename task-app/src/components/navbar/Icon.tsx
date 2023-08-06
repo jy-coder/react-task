@@ -1,9 +1,9 @@
-import React from "react";
-import { Group, ActionIcon, Box, rem } from "@mantine/core";
+import React from 'react'
+import { Group, ActionIcon, Box, rem } from '@mantine/core'
 
 interface IIconProps {
-  children: JSX.Element;
-  onClick?: () => void;
+  children: JSX.Element
+  onClick?: () => void
 }
 
 const Icon: React.FunctionComponent<IIconProps> = ({ children, onClick }) => {
@@ -15,7 +15,7 @@ const Icon: React.FunctionComponent<IIconProps> = ({ children, onClick }) => {
         </ActionIcon>
       </Group>
     </Box>
-  );
-};
+  )
+}
 
-export default Icon;
+export default Icon

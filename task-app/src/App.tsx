@@ -1,34 +1,34 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import "./App.css";
-import "react-toastify/dist/ReactToastify.css";
-import Home from "./pages/Home";
-import Layout from "./layout/Layout";
+import { Navigate, Route, Routes } from 'react-router-dom'
+import './App.css'
+import 'react-toastify/dist/ReactToastify.css'
+import Home from './pages/Home'
+import Layout from './layout/Layout'
 import UserContext, {
-  UserContextProvider,
-} from "./components/context/UserContext";
-import { AppContextProvider } from "./components/context/AppContext";
-import { LoginForm } from "./forms/LoginForm";
-import Theme from "./provider/Theme";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { ToastContainer } from "react-toastify";
-import { QueryBoundaries } from "./suspense/QueryBoundaries";
-import { useContext } from "react";
-import { User } from "./types";
-import RegisterForm from "./forms/RegisterForm";
-import { KabanBoard, Task } from "./pages/Task";
-import ProtectedRoute from "./route/ProtectedRoute";
+  UserContextProvider
+} from './components/context/UserContext'
+import { AppContextProvider } from './components/context/AppContext'
+import { LoginForm } from './forms/LoginForm'
+import Theme from './provider/Theme'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ToastContainer } from 'react-toastify'
+import { QueryBoundaries } from './suspense/QueryBoundaries'
+import { useContext } from 'react'
+import { type User } from './types'
+import RegisterForm from './forms/RegisterForm'
+import { KabanBoard, Task } from './pages/Task'
+import ProtectedRoute from './route/ProtectedRoute'
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      suspense: true,
-    },
-  },
-});
+      suspense: true
+    }
+  }
+})
 
-function App() {
-  const { isAuth } = useContext<User>(UserContext);
+function App () {
+  const { isAuth } = useContext<User>(UserContext)
 
   return (
     <Theme>
@@ -64,7 +64,7 @@ function App() {
         </UserContextProvider>
       </AppContextProvider>
     </Theme>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,31 +1,31 @@
-import { createStyles, rem } from "@mantine/core";
+import { createStyles, rem } from '@mantine/core'
 
-export const HEADER_HEIGHT = rem(60);
+export const HEADER_HEIGHT = rem(60)
 
 export const useStyles = createStyles((theme) => ({
   root: {
-    position: "relative",
+    position: 'relative',
     zIndex: 100,
-    backgroundColor: theme.colors.darkGrey,
+    backgroundColor: theme.colors.darkGrey
   },
 
   appShell: {
     root: {
-      backgroundColor: theme.colors.darkGrey,
+      backgroundColor: theme.colors.darkGrey
     },
     main: {
-      backgroundColor: theme.colors.darkGrey,
-    },
+      backgroundColor: theme.colors.darkGrey
+    }
   },
 
   hiddenNav: {
-    position: "relative",
+    position: 'relative',
     zIndex: 100,
-    visibility: "hidden",
+    visibility: 'hidden'
   },
 
   dropdown: {
-    position: "absolute",
+    position: 'absolute',
     top: HEADER_HEIGHT,
     left: 0,
     right: 0,
@@ -33,94 +33,94 @@ export const useStyles = createStyles((theme) => ({
     borderTopRightRadius: 0,
     borderTopLeftRadius: 0,
     borderTopWidth: 0,
-    overflow: "hidden",
+    overflow: 'hidden',
 
-    [theme.fn.largerThan("sm")]: {
-      display: "none",
-    },
+    [theme.fn.largerThan('sm')]: {
+      display: 'none'
+    }
   },
 
   header: {
-    maxWidth: "120rem !important",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    height: "100%",
+    maxWidth: '120rem !important',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '100%'
   },
 
   links: {
-    [theme.fn.smallerThan("sm")]: {
-      display: "none",
-    },
+    [theme.fn.smallerThan('sm')]: {
+      display: 'none'
+    }
   },
 
   burger: {
-    [theme.fn.largerThan("sm")]: {
-      display: "none",
-    },
+    [theme.fn.largerThan('sm')]: {
+      display: 'none'
+    }
   },
 
   link: {
-    display: "block",
+    display: 'block',
     lineHeight: 1,
     padding: `${rem(8)} ${rem(12)}`,
     borderRadius: theme.radius.sm,
-    textDecoration: "none",
+    textDecoration: 'none',
     color:
-      theme.colorScheme === "dark"
+      theme.colorScheme === 'dark'
         ? theme.colors.dark[0]
         : theme.colors.gray[7],
     fontSize: theme.fontSizes.sm,
     fontWeight: 500,
 
-    "&:hover": {
+    '&:hover': {
       backgroundColor:
-        theme.colorScheme === "dark"
+        theme.colorScheme === 'dark'
           ? theme.colors.dark[6]
-          : theme.colors.gray[0],
+          : theme.colors.gray[0]
     },
 
-    [theme.fn.smallerThan("sm")]: {
+    [theme.fn.smallerThan('sm')]: {
       borderRadius: 0,
-      padding: theme.spacing.md,
-    },
+      padding: theme.spacing.md
+    }
   },
 
   linkActive: {
-    "&, &:hover": {
+    '&, &:hover': {
       backgroundColor: theme.fn.variant({
-        variant: "light",
-        color: theme.primaryColor,
+        variant: 'light',
+        color: theme.primaryColor
       }).background,
-      color: theme.fn.variant({ variant: "light", color: theme.primaryColor })
-        .color,
-    },
+      color: theme.fn.variant({ variant: 'light', color: theme.primaryColor })
+        .color
+    }
   },
 
   input: {
     input: {
       backgroundColor: `${theme.colors.lightGrey}`,
-      color: theme.colors.white,
+      color: theme.colors.white
     },
     wrapper: {
       backgroundColor: `${theme.colors.lightGrey}`,
-      color: theme.colors.white,
-    },
+      color: theme.colors.white
+    }
   },
   passwordInput: {
     input: {
       backgroundColor: `${theme.colors.lightGrey}`,
-      color: theme.colors.white,
-    },
+      color: theme.colors.white
+    }
   },
   center: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    minHeight: "100vh",
-    backgroundColor: theme.colors.darkGrey,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    backgroundColor: theme.colors.darkGrey
   },
   paper: {
-    backgroundColor: theme.colors.darkGrey,
-  },
-}));
+    backgroundColor: theme.colors.darkGrey
+  }
+}))

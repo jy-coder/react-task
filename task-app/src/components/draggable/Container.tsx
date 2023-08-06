@@ -1,31 +1,31 @@
-import React from "react";
-import { useDroppable } from "@dnd-kit/core";
+import React from 'react'
+import { useDroppable } from '@dnd-kit/core'
 import {
   SortableContext,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { SortableItem } from "./SortableItem";
-import { Task } from "../../types";
+  verticalListSortingStrategy
+} from '@dnd-kit/sortable'
+import { SortableItem } from './SortableItem'
+import { type Task } from '../../types'
 
 const containerStyle = {
-  background: "#141d2b",
+  background: '#141d2b',
   padding: 10,
-  height: "90vh",
+  height: '90vh',
   margin: 10,
-  flex: 1,
-};
+  flex: 1
+}
 
 interface ContainerProps {
-  id: string;
-  items: Task[];
+  id: string
+  items: Task[]
 }
 
 export const Container: React.FC<ContainerProps> = (props) => {
-  const { id, items } = props;
+  const { id, items } = props
 
   const { setNodeRef } = useDroppable({
-    id,
-  });
+    id
+  })
 
   return (
     <SortableContext
@@ -39,5 +39,5 @@ export const Container: React.FC<ContainerProps> = (props) => {
         ))}
       </div>
     </SortableContext>
-  );
-};
+  )
+}

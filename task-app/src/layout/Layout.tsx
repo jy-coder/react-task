@@ -1,21 +1,21 @@
-import { AppShell, Header, Navbar } from "@mantine/core";
-import React, { ReactNode, useContext } from "react";
-import { HeaderResponsive } from "../components/navbar/Header";
-import AppContext, { IApp } from "../components/context/AppContext";
-import { MainLinks } from "../components/navbar/MainLinks";
-import UserContext from "../components/context/UserContext";
-import { User } from "../types";
-import { useStyles } from "../components/navbar/useStyles";
+import { AppShell, Header, Navbar } from '@mantine/core'
+import React, { type ReactNode, useContext } from 'react'
+import { HeaderResponsive } from '../components/navbar/Header'
+import AppContext, { type IApp } from '../components/context/AppContext'
+import { MainLinks } from '../components/navbar/MainLinks'
+import UserContext from '../components/context/UserContext'
+import { type User } from '../types'
+import { useStyles } from '../components/navbar/useStyles'
 
 interface ILayoutProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 const Layout: React.FC<ILayoutProps> = ({ children }) => {
-  const { navBarHidden } = useContext<IApp>(AppContext);
+  const { navBarHidden } = useContext<IApp>(AppContext)
 
-  const { isAuth } = useContext<User>(UserContext);
-  const { classes, cx } = useStyles();
+  const { isAuth } = useContext<User>(UserContext)
+  const { classes, cx } = useStyles()
 
   return (
     <AppShell
@@ -28,8 +28,8 @@ const Layout: React.FC<ILayoutProps> = ({ children }) => {
           width={{ base: navBarHidden || !isAuth ? 0 : 300 }}
           style={
             navBarHidden || !isAuth
-              ? { visibility: "hidden" }
-              : { backgroundColor: "#1a2332" }
+              ? { visibility: 'hidden' }
+              : { backgroundColor: '#1a2332' }
           }
         >
           <Navbar.Section grow mt="md">
@@ -43,12 +43,12 @@ const Layout: React.FC<ILayoutProps> = ({ children }) => {
             links={
               !isAuth
                 ? [
-                    { link: "/login", label: "Login" },
-                    { link: "/register", label: "Register" },
+                    { link: '/login', label: 'Login' },
+                    { link: '/register', label: 'Register' }
                   ]
                 : [
-                    { link: "/tasks", label: "Task" },
-                    { link: "/logout", label: "Logout" },
+                    { link: '/tasks', label: 'Task' },
+                    { link: '/logout', label: 'Logout' }
                   ]
             }
           />
@@ -57,7 +57,7 @@ const Layout: React.FC<ILayoutProps> = ({ children }) => {
     >
       {children}
     </AppShell>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

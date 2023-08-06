@@ -1,35 +1,35 @@
-import React from "react";
+import React from 'react'
 import {
   IconGitPullRequest,
   IconAlertCircle,
   IconMessages,
-  IconDatabase,
-} from "@tabler/icons-react";
-import { ThemeIcon, UnstyledButton, Group, Text } from "@mantine/core";
+  IconDatabase
+} from '@tabler/icons-react'
+import { ThemeIcon, UnstyledButton, Group, Text } from '@mantine/core'
 
 interface MainLinkProps {
-  icon: React.ReactNode;
-  color: string;
-  label: string;
+  icon: React.ReactNode
+  color: string
+  label: string
 }
 
-function MainLink({ icon, color, label }: MainLinkProps) {
+function MainLink ({ icon, color, label }: MainLinkProps) {
   return (
     <UnstyledButton
       sx={(theme) => ({
-        display: "block",
-        width: "100%",
+        display: 'block',
+        width: '100%',
         padding: theme.spacing.xs,
         borderRadius: theme.radius.sm,
         color:
-          theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+          theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
 
-        "&:hover": {
+        '&:hover': {
           backgroundColor:
-            theme.colorScheme === "dark"
+            theme.colorScheme === 'dark'
               ? theme.colors.dark[6]
-              : theme.colors.gray[0],
-        },
+              : theme.colors.gray[0]
+        }
       })}
     >
       <Group>
@@ -40,25 +40,25 @@ function MainLink({ icon, color, label }: MainLinkProps) {
         <Text size="sm">{label}</Text>
       </Group>
     </UnstyledButton>
-  );
+  )
 }
 
 const data = [
   {
     icon: <IconGitPullRequest size="1rem" />,
-    color: "blue",
-    label: "Pull Requests",
+    color: 'blue',
+    label: 'Pull Requests'
   },
   {
     icon: <IconAlertCircle size="1rem" />,
-    color: "teal",
-    label: "Open Issues",
+    color: 'teal',
+    label: 'Open Issues'
   },
-  { icon: <IconMessages size="1rem" />, color: "violet", label: "Discussions" },
-  { icon: <IconDatabase size="1rem" />, color: "grape", label: "Databases" },
-];
+  { icon: <IconMessages size="1rem" />, color: 'violet', label: 'Discussions' },
+  { icon: <IconDatabase size="1rem" />, color: 'grape', label: 'Databases' }
+]
 
-export function MainLinks() {
-  const links = data.map((link) => <MainLink {...link} key={link.label} />);
-  return <div>{links}</div>;
+export function MainLinks () {
+  const links = data.map((link) => <MainLink {...link} key={link.label} />)
+  return <div>{links}</div>
 }

@@ -1,24 +1,24 @@
-import React from "react";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { Item } from "./Item";
-import { Task } from "../../types";
+import React from 'react'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { Item } from './Item'
+import { type Task } from '../../types'
 
-export const SortableItem: React.FC<{ id: number; task: Task }> = ({
+export const SortableItem: React.FC<{ id: number, task: Task }> = ({
   id,
-  task,
+  task
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: id });
+    useSortable({ id })
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition,
-  };
+    transition
+  }
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
       <Item id={id} name={task.name} />
     </div>
-  );
-};
+  )
+}

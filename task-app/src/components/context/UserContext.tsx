@@ -1,5 +1,5 @@
-import React, { ReactNode, createContext, useState } from "react";
-import { User } from "../../types";
+import React, { type ReactNode, createContext, useState } from "react";
+import { type User } from "../../types";
 
 export const UserContext = createContext<User>({} as User);
 

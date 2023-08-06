@@ -1,12 +1,12 @@
-import { QueryErrorResetBoundary } from "@tanstack/react-query";
-import React from "react";
-import { ErrorBoundary, FallbackProps } from "react-error-boundary";
+import { QueryErrorResetBoundary } from '@tanstack/react-query'
+import React from 'react'
+import { ErrorBoundary, type FallbackProps } from 'react-error-boundary'
 
 // MakeFetchingEasy
 export const QueryBoundaries = ({
-  children,
+  children
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) => (
   <QueryErrorResetBoundary>
     {({ reset }) => (
@@ -15,10 +15,10 @@ export const QueryBoundaries = ({
       </ErrorBoundary>
     )}
   </QueryErrorResetBoundary>
-);
+)
 
 // Spinner
-const LoadingView = () => <div>Loading...</div>;
+const LoadingView = () => <div>Loading...</div>
 
 // Error + retry
 const ErrorView = ({ error, resetErrorBoundary }: FallbackProps) => {
@@ -27,5 +27,5 @@ const ErrorView = ({ error, resetErrorBoundary }: FallbackProps) => {
       <div>{error.message}</div>
       <button title="Retry" onClick={resetErrorBoundary} />
     </div>
-  );
-};
+  )
+}

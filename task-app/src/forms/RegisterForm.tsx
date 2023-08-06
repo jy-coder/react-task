@@ -1,9 +1,9 @@
-import * as React from "react";
+import * as React from 'react'
 
 interface IRegisterFormProps {}
 
 const RegisterForm: React.FunctionComponent<IRegisterFormProps> = (props) => {
-  return <></>;
-};
+  return <></>
+}
 
-export default RegisterForm;
+export default RegisterForm

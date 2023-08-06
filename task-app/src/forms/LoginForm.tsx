@@ -1,5 +1,5 @@
-import { useForm } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
+import { useForm } from 'react-hook-form'
+import { DevTool } from '@hookform/devtools'
 import {
   Box,
   Button,
@@ -8,45 +8,45 @@ import {
   Paper,
   PasswordInput,
   Stack,
-  TextInput,
-} from "@mantine/core";
-import { useStyles } from "../components/navbar/useStyles";
-import { useMutation } from "@tanstack/react-query";
-import { LoginInput, loginUserFn } from "../api/authApi";
-import { AxiosError } from "axios";
-import { useContext } from "react";
-import { User } from "../types";
-import UserContext from "../components/context/UserContext";
-import { useNavigate } from "react-router-dom";
+  TextInput
+} from '@mantine/core'
+import { useStyles } from '../components/navbar/useStyles'
+import { useMutation } from '@tanstack/react-query'
+import { type LoginInput, loginUserFn } from '../api/authApi'
+import { AxiosError } from 'axios'
+import { useContext } from 'react'
+import { type User } from '../types'
+import UserContext from '../components/context/UserContext'
+import { useNavigate } from 'react-router-dom'
 
 // let renderCount = 0;
 
 export const LoginForm = () => {
-  const navigate = useNavigate();
-  const { classes } = useStyles();
-  const { setIsAuth } = useContext<User>(UserContext);
+  const navigate = useNavigate()
+  const { classes } = useStyles()
+  const { setIsAuth } = useContext<User>(UserContext)
   const {
     handleSubmit,
     register,
     formState: { errors },
-    control,
+    control
   } = useForm<LoginInput>({
     defaultValues: {
-      username: "",
-      password: "",
-    },
-  });
+      username: '',
+      password: ''
+    }
+  })
 
   const { mutate } = useMutation(loginUserFn, {
     onSuccess: () => {
-      setIsAuth(true);
-      navigate("/tasks");
-    },
-  });
+      setIsAuth(true)
+      navigate('/tasks')
+    }
+  })
 
   const onSubmit = (data: LoginInput) => {
-    mutate(data);
-  };
+    mutate(data)
+  }
 
   // renderCount++;
 
@@ -61,7 +61,7 @@ export const LoginForm = () => {
         h={300}
         className={classes.paper}
         style={{
-          borderColor: "#82c91e",
+          borderColor: '#82c91e'
         }}
       >
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -72,15 +72,15 @@ export const LoginForm = () => {
               type="email"
               placeholder="Email"
               onKeyDown={(e) =>
-                e.key === "Enter" ? handleSubmit(onSubmit) : ""
+                e.key === 'Enter' ? handleSubmit(onSubmit) : ''
               }
-              {...register("username", {
-                required: "Email is required",
+              {...register('username', {
+                required: 'Email is required',
                 pattern: {
                   value:
                     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-                  message: "Invalid email format",
-                },
+                  message: 'Invalid email format'
+                }
               })}
               error={errors.username?.message}
             />
@@ -88,10 +88,10 @@ export const LoginForm = () => {
               className={classes.passwordInput}
               label="Password"
               placeholder="Password"
-              {...register("password", { required: "Password is required" })}
+              {...register('password', { required: 'Password is required' })}
               error={errors.password?.message}
               onKeyDown={(e) =>
-                e.key === "Enter" ? handleSubmit(onSubmit) : ""
+                e.key === 'Enter' ? handleSubmit(onSubmit) : ''
               }
             />
             <Stack justify="center">
@@ -104,5 +104,5 @@ export const LoginForm = () => {
       </Paper>
       <DevTool control={control} />
     </Container>
-  );
-};
+  )
+}

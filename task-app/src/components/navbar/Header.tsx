@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState } from 'react'
 import {
   Header,
   Container,
@@ -6,34 +6,34 @@ import {
   Burger,
   Paper,
   Transition,
-  Button,
-} from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { IconMoonStars } from "@tabler/icons-react";
-import Icon from "./Icon";
-import AppContext, { IApp } from "../context/AppContext";
-import { HEADER_HEIGHT, useStyles } from "./useStyles";
-import { Link } from "react-router-dom";
-import { User } from "../../types";
-import UserContext from "../context/UserContext";
+  Button
+} from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import { IconMoonStars } from '@tabler/icons-react'
+import Icon from './Icon'
+import AppContext, { type IApp } from '../context/AppContext'
+import { HEADER_HEIGHT, useStyles } from './useStyles'
+import { Link } from 'react-router-dom'
+import { type User } from '../../types'
+import UserContext from '../context/UserContext'
 
 interface HeaderResponsiveProps {
-  links: { link: string; label: string }[];
+  links: Array<{ link: string, label: string }>
 }
 
-export function HeaderResponsive({ links }: HeaderResponsiveProps) {
-  const [opened, { toggle, close }] = useDisclosure(false);
-  const [active, setActive] = useState(links[0].link);
-  const { classes, cx } = useStyles();
-  const { setNavBarHidden, navBarHidden } = useContext<IApp>(AppContext);
-  const { isAuth, setIsAuth } = useContext<User>(UserContext);
+export function HeaderResponsive ({ links }: HeaderResponsiveProps) {
+  const [opened, { toggle, close }] = useDisclosure(false)
+  const [active, setActive] = useState(links[0].link)
+  const { classes, cx } = useStyles()
+  const { setNavBarHidden, navBarHidden } = useContext<IApp>(AppContext)
+  const { isAuth, setIsAuth } = useContext<User>(UserContext)
 
   const items = links.map((link) => (
     <Link key={link.label} to={link.link}>
       <Button
         onClick={(event) => {
-          if (link.label === "Logout") {
-            setIsAuth(false);
+          if (link.label === 'Logout') {
+            setIsAuth(false)
           }
           // event.preventDefault();
           // setActive(link.link);
@@ -43,11 +43,11 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         {link.label}
       </Button>
     </Link>
-  ));
+  ))
 
   const handleClick = () => {
-    setNavBarHidden(!navBarHidden);
-  };
+    setNavBarHidden(!navBarHidden)
+  }
 
   return (
     <Header height={HEADER_HEIGHT} mb={120} className={classes.root}>
@@ -78,5 +78,5 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         </Transition>
       </Container>
     </Header>
-  );
+  )
 }
