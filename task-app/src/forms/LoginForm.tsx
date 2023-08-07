@@ -1,30 +1,27 @@
-import { useForm } from 'react-hook-form'
-import { DevTool } from '@hookform/devtools'
+import { useForm } from 'react-hook-form';
+import { DevTool } from '@hookform/devtools';
 import {
-  Box,
   Button,
   Container,
-  Group,
   Paper,
   PasswordInput,
   Stack,
   TextInput
-} from '@mantine/core'
-import { useStyles } from '../components/navbar/useStyles'
-import { useMutation } from '@tanstack/react-query'
-import { type LoginInput, loginUserFn } from '../api/authApi'
-import { AxiosError } from 'axios'
-import { useContext } from 'react'
-import { type User } from '../types'
-import UserContext from '../components/context/UserContext'
-import { useNavigate } from 'react-router-dom'
+} from '@mantine/core';
+import { useStyles } from '../components/navbar/useStyles';
+import { useMutation } from '@tanstack/react-query';
+import { type LoginInput, loginUserFn } from '../api/authApi';
+import { useContext } from 'react';
+import { type User } from '../types';
+import UserContext from '../components/context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 // let renderCount = 0;
 
 export const LoginForm = () => {
-  const navigate = useNavigate()
-  const { classes } = useStyles()
-  const { setIsAuth } = useContext<User>(UserContext)
+  const navigate = useNavigate();
+  const { classes } = useStyles();
+  const { setIsAuth } = useContext<User>(UserContext);
   const {
     handleSubmit,
     register,
@@ -35,18 +32,18 @@ export const LoginForm = () => {
       username: '',
       password: ''
     }
-  })
+  });
 
   const { mutate } = useMutation(loginUserFn, {
     onSuccess: () => {
-      setIsAuth(true)
-      navigate('/tasks')
+      setIsAuth(true);
+      navigate('/tasks');
     }
-  })
+  });
 
   const onSubmit = (data: LoginInput) => {
-    mutate(data)
-  }
+    mutate(data);
+  };
 
   // renderCount++;
 
@@ -67,6 +64,7 @@ export const LoginForm = () => {
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <Stack spacing="lg">
             <TextInput
+              data-testid="email"
               className={classes.input}
               label="Email"
               type="email"
@@ -85,6 +83,7 @@ export const LoginForm = () => {
               error={errors.username?.message}
             />
             <PasswordInput
+              data-testid="password"
               className={classes.passwordInput}
               label="Password"
               placeholder="Password"
@@ -95,7 +94,7 @@ export const LoginForm = () => {
               }
             />
             <Stack justify="center">
-              <Button type="submit" color="lime">
+              <Button type="submit" color="lime" data-testid="login">
                 Login
               </Button>
             </Stack>
@@ -104,5 +103,5 @@ export const LoginForm = () => {
       </Paper>
       <DevTool control={control} />
     </Container>
-  )
-}
+  );
+};
