@@ -1,5 +1,5 @@
 import React, { type ReactNode, createContext, useState } from 'react'
-import { type User } from '../../types'
+import { type UserInfo, type User } from '../../types'
 
 const initialAppValue: User = {
   isAuth: false,
@@ -16,7 +16,7 @@ export interface IUserContext {
 }
 
 export const UserContextProvider: React.FC<IUserContext> = ({ children }) => {
-  const [userInfo, setUserInfo] = useState(null)
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
   const [isAuth, setIsAuth] = useState(false)
 
   const value = {

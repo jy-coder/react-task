@@ -7,11 +7,11 @@ export interface User {
   isAuth: boolean
   token?: string | null
   userInfo: UserInfo | null
-  setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>
+  setUserInfo: React.Dispatch<React.SetStateAction<UserInfo | null>>
   setIsAuth: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-interface UserInfo {
+export interface UserInfo {
   id: number
   username: string
   email: string

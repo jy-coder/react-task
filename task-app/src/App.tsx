@@ -27,7 +27,7 @@ const queryClient = new QueryClient({
   }
 })
 
-function App () {
+function App() {
   const { isAuth } = useContext<User>(UserContext)
 
   return (
@@ -49,9 +49,9 @@ function App () {
                   <Route
                     path="/tasks"
                     element={
-                      <ProtectedRoute>
-                        <KabanBoard />
-                      </ProtectedRoute>
+                      // <ProtectedRoute>
+                      <KabanBoard />
+                      // </ProtectedRoute>
                     }
                   />
                   <Route

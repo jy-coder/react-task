@@ -1,6 +1,6 @@
 interface ItemProps {
   id: number
-  name: string
+  name?: string
 }
 
 export const Item: React.FC<ItemProps> = ({ name }) => {

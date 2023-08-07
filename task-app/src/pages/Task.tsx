@@ -1,5 +1,5 @@
 'use client'
-import React, { CSSProperties, useState } from 'react'
+import React, { useState } from 'react'
 
 import {
   DndContext,
@@ -10,6 +10,8 @@ import {
   useSensor,
   useSensors
 } from '@dnd-kit/core'
+
+import type { DragStartEvent } from '@dnd-kit/core'
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import { Container } from '../components/draggable/Container'
 import { Item } from '../components/draggable/Item'
@@ -49,7 +51,7 @@ export const KabanBoard: React.FC<KabanProps> = () => {
       { id: 9, name: 'Task 9' }
     ]
   })
-  const [activeId, setActiveId] = useState<string | null>()
+  const [activeId, setActiveId] = useState<number | null>()
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -78,7 +80,7 @@ export const KabanBoard: React.FC<KabanProps> = () => {
     </div>
   )
 
-  function findContainer (id: number) {
+  function findContainer(id: number) {
     if (id in items) {
       return id
     }
@@ -88,14 +90,14 @@ export const KabanBoard: React.FC<KabanProps> = () => {
     )
   }
 
-  function handleDragStart (event: any) {
+  function handleDragStart(event: DragStartEvent) {
     const { active } = event
     const { id } = active
 
-    setActiveId(id)
+    setActiveId(Number(id))
   }
 
-  function handleDragOver (event: any) {
+  function handleDragOver(event: any) {
     const { active, over, draggingRect } = event
     const { id } = active
     const { id: overId } = over
@@ -147,7 +149,7 @@ export const KabanBoard: React.FC<KabanProps> = () => {
     })
   }
 
-  function handleDragEnd (event: any) {
+  function handleDragEnd(event: any) {
     const { active, over } = event
     const { id } = active
     const { id: overId } = over
@@ -171,11 +173,7 @@ export const KabanBoard: React.FC<KabanProps> = () => {
     if (activeIndex !== overIndex) {
       setItems((items) => ({
         ...items,
-        [overContainer]: arrayMove(
-          items[overContainer],
-          activeIndex,
-          overIndex
-        )
+        [overContainer]: arrayMove(items[overContainer], activeIndex, overIndex)
       }))
     }
 
