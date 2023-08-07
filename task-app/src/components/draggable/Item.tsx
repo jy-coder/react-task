@@ -1,4 +1,9 @@
-export const Item: React.FC<{ id: number, name?: string }> = ({ name }) => {
+interface ItemProps {
+  id: number
+  name: string
+}
+
+export const Item: React.FC<ItemProps> = ({ name }) => {
   const style = {
     width: '100%',
     height: 50,

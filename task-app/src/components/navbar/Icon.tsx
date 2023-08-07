@@ -6,7 +6,7 @@ interface IIconProps {
   onClick?: () => void
 }
 
-const Icon: React.FunctionComponent<IIconProps> = ({ children, onClick }) => {
+const Icon: React.FC<IIconProps> = ({ children, onClick }) => {
   return (
     <Box>
       <Group position="apart">

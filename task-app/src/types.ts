@@ -6,7 +6,13 @@ export interface Task {
 export interface User {
   isAuth: boolean
   token?: string | null
-  userInfo: any
-  setUserInfo: any
-  setIsAuth: any
+  userInfo: UserInfo | null
+  setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>
+  setIsAuth: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+interface UserInfo {
+  id: number
+  username: string
+  email: string
 }

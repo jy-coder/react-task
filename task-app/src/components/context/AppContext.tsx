@@ -6,7 +6,12 @@ export interface IApp {
   setNavBarHidden: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const AppContext = createContext<IApp>({} as IApp)
+const initialAppValue: IApp = {
+  navBarHidden: false,
+  setNavBarHidden: () => {}
+}
+
+export const AppContext = createContext<IApp>(initialAppValue)
 
 interface IAppContext {
   children: ReactNode

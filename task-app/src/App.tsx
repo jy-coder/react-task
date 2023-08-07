@@ -54,7 +54,10 @@ function App () {
                       </ProtectedRoute>
                     }
                   />
-                  <Route path="*" element={<p>There's nothing here: 404!</p>} />
+                  <Route
+                    path="*"
+                    element={<p>There&apos;s nothing here: 404!</p>}
+                  />
                 </Routes>
               </Layout>
             </QueryBoundaries>
