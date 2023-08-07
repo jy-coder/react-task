@@ -24,6 +24,7 @@
     "@typescript-eslint/restrict-plus-operands": "off",
     "react/prop-types": "off",
     "@typescript-eslint/indent": "off",
-    "@typescript-eslint/space-before-function-paren": "off"
+    "@typescript-eslint/space-before-function-paren": "off",
+    "@typescript-eslint/semi": "off"
   }
 }
