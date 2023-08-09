@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Center = styled.div`
   display: flex;
@@ -6,6 +6,6 @@ const Center = styled.div`
   align-items: center;
   min-height: 100vh;
   background-color: ${(props) => `${props.theme.colors.darkGrey}`};
-`
+`;
 
-export default Center
+export default Center;

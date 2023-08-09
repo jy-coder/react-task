@@ -1,6 +1,6 @@
-import { createStyles, rem } from '@mantine/core'
+import { createStyles, rem } from '@mantine/core';
 
-export const HEADER_HEIGHT = rem(60)
+export const HEADER_HEIGHT = rem(60);
 
 export const useStyles = createStyles((theme) => ({
   root: {
@@ -123,4 +123,4 @@ export const useStyles = createStyles((theme) => ({
   paper: {
     backgroundColor: theme.colors.darkGrey
   }
-}))
+}));

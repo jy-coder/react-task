@@ -1,26 +1,21 @@
 import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
-import {
-  Button,
-  Container,
-  Paper,
-  PasswordInput,
-  Stack,
-  TextInput
-} from '@mantine/core';
-import { useStyles } from '../components/navbar/useStyles';
 import { useMutation } from '@tanstack/react-query';
 import { type LoginInput, loginUserFn } from '../api/authApi';
 import { useContext } from 'react';
 import { type User } from '../types';
 import UserContext from '../components/context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import Center from '../components/styled/Center.style';
+import Paper from '../components/styled/paper/Paper.style';
+import Input from '../components/styled/input/Input';
+import { Button } from '../components/styled/button/button.style';
+import { Stack } from '../components/styled/stack/Stack.style';
 
 // let renderCount = 0;
 
 export const LoginForm = () => {
   const navigate = useNavigate();
-  const { classes } = useStyles();
   const { setIsAuth } = useContext<User>(UserContext);
   const {
     handleSubmit,
@@ -48,28 +43,17 @@ export const LoginForm = () => {
   // renderCount++;
 
   return (
-    <Container fluid className={classes.center}>
+    <Center>
       {/* <h1>Login ({renderCount / 2})</h1> */}
-      <Paper
-        radius="sm"
-        p="xl"
-        withBorder
-        w={400}
-        h={300}
-        className={classes.paper}
-        style={{
-          borderColor: '#82c91e'
-        }}
-      >
+      <Paper width={300} height={250}>
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <Stack spacing="lg">
-            <TextInput
-              data-testid="email"
-              className={classes.input}
+          <Stack>
+            <Input
               label="Email"
+              data-testid="email"
               type="email"
               placeholder="Email"
-              onKeyDown={(e) =>
+              onKeyDown={(e: any) =>
                 e.key === 'Enter' ? handleSubmit(onSubmit) : ''
               }
               {...register('username', {
@@ -82,9 +66,9 @@ export const LoginForm = () => {
               })}
               error={errors.username?.message}
             />
-            <PasswordInput
+            <Input
+              type="password"
               data-testid="password"
-              className={classes.passwordInput}
               label="Password"
               placeholder="Password"
               {...register('password', { required: 'Password is required' })}
@@ -93,8 +77,8 @@ export const LoginForm = () => {
                 e.key === 'Enter' ? handleSubmit(onSubmit) : ''
               }
             />
-            <Stack justify="center">
-              <Button type="submit" color="lime" data-testid="login">
+            <Stack>
+              <Button type="submit" data-testid="login">
                 Login
               </Button>
             </Stack>
@@ -102,6 +86,6 @@ export const LoginForm = () => {
         </form>
       </Paper>
       <DevTool control={control} />
-    </Container>
+    </Center>
   );
 };
