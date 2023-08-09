@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { type LoginInput, loginUserFn } from '../api/authApi';
 import { useContext } from 'react';
 import { type User } from '../types';
-import UserContext from '../components/context/UserContext';
+import UserContext from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import Center from '../components/styled/Center.style';
 import Paper from '../components/styled/paper/Paper.style';

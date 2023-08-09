@@ -3,10 +3,8 @@ import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 import Home from './pages/Home';
 import Layout from './layout/Layout';
-import UserContext, {
-  UserContextProvider
-} from './components/context/UserContext';
-import { AppContextProvider } from './components/context/AppContext';
+import UserContext, { UserContextProvider } from './context/UserContext';
+import { AppContextProvider } from './context/AppContext';
 import { LoginForm } from './forms/LoginForm';
 import Theme from './provider/Theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
