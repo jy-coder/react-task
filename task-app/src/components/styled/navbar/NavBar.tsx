@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   LeftContainer,
   RightContainer,
@@ -10,6 +10,9 @@ import {
   NavbarLinkExtended,
   OpenLinksButton
 } from './NavBar.style';
+import ProfileDropdown from '../../ProfileDropdown';
+import UserContext from '../../../context/UserContext';
+import { type User } from '../../../types';
 
 interface INavBarProps {
   navigation: {
@@ -20,6 +23,7 @@ interface INavBarProps {
 
 const NavBar: React.FC<INavBarProps> = ({ navigation }) => {
   const [extendNavbar, setExtendNavbar] = useState(false);
+  const { isAuth } = useContext<User>(UserContext);
 
   return (
     <NavbarContainer $extendNavbar={extendNavbar}>
@@ -42,10 +46,16 @@ const NavBar: React.FC<INavBarProps> = ({ navigation }) => {
         </LeftContainer>
         <RightContainer>
           {navigation.right.map((linkData, index) => (
-            <NavbarLink key={index} to={linkData.link}>
+            <NavbarLink key={index} to={linkData.link} activeClassName="active">
               {linkData.label}
             </NavbarLink>
           ))}
+          {isAuth && (
+            <ProfileDropdown
+              profileImage={'https://placehold.co/200x200'}
+              options={['Profile', 'Settings', 'Logout']}
+            />
+          )}
         </RightContainer>
       </NavbarInnerContainer>
       {extendNavbar && (

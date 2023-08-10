@@ -3,34 +3,40 @@
 //   withCredentials: true,
 // });
 
-import { AxiosRequest } from '../interceptor/http'
+import { AxiosRequest } from '../interceptor/http';
 
 export interface LoginInput {
-  username: string
-  password: string
+  username: string;
+  password: string;
 }
 
 export interface RegisterInput {
-  email: string
-  password: string
+  username: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface RegisterRequest {
+  username: string;
+  password: string;
 }
 
 interface Response {
-  data: any
-  status: number
+  data: any;
+  status: number;
 }
 
 export interface GenericResponse {
-  response: Response
+  response: Response;
 }
-const authApi = new AxiosRequest('http://localhost:8085/api/v1')
+const authApi = new AxiosRequest('http://localhost:8085/api/v1');
 
-export const signUpUserFn = async (user: RegisterInput) => {
-  const response = await authApi.post<GenericResponse>('auth/register', user)
-  return response.data
-}
+export const signUpUserFn = async (user: RegisterRequest) => {
+  const response = await authApi.post<GenericResponse>('auth/register', user);
+  return response.data;
+};
 
 export const loginUserFn = async (user: LoginInput) => {
-  const response = await authApi.post<GenericResponse>('auth/token', user)
-  return response.data
-}
+  const response = await authApi.post<GenericResponse>('auth/token', user);
+  return response.data;
+};

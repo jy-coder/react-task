@@ -1,5 +1,5 @@
-'use client'
-import React, { useState } from 'react'
+'use client';
+import React, { useState } from 'react';
 
 import {
   DndContext,
@@ -9,26 +9,26 @@ import {
   PointerSensor,
   useSensor,
   useSensors
-} from '@dnd-kit/core'
+} from '@dnd-kit/core';
 
-import type { DragStartEvent } from '@dnd-kit/core'
-import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
-import { Container } from '../components/draggable/Container'
-import { Item } from '../components/draggable/Item'
+import type { DragOverEvent, DragStartEvent, Over } from '@dnd-kit/core';
+import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { Container } from '../components/draggable/Container';
+import { Item } from '../components/draggable/Item';
 
 const wrapperStyle: {
-  display: 'flex' | 'block' | 'inline' | 'inline-block'
-  flexDirection: 'row' | 'row-reverse' | 'column' | 'column-reverse'
+  display: 'flex' | 'block' | 'inline' | 'inline-block';
+  flexDirection: 'row' | 'row-reverse' | 'column' | 'column-reverse';
 } = {
   display: 'flex',
   flexDirection: 'row'
-}
+};
 
-type ItemsObject<T> = Record<string, T[]>
+type ItemsObject<T> = Record<string, T[]>;
 
 export interface Task {
-  id: number
-  name: string
+  id: number;
+  name: string;
 }
 
 interface KabanProps {}
@@ -50,15 +50,15 @@ export const KabanBoard: React.FC<KabanProps> = () => {
       { id: 8, name: 'Task 8' },
       { id: 9, name: 'Task 9' }
     ]
-  })
-  const [activeId, setActiveId] = useState<number | null>()
+  });
+  const [activeId, setActiveId] = useState<number | null>();
 
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates
     })
-  )
+  );
 
   return (
     <div style={wrapperStyle}>
@@ -78,61 +78,61 @@ export const KabanBoard: React.FC<KabanProps> = () => {
         </DragOverlay>
       </DndContext>
     </div>
-  )
+  );
 
   function findContainer(id: number) {
     if (id in items) {
-      return id
+      return id;
     }
 
     return Object.keys(items).find((key) =>
       items[key].some((task) => task.id === id)
-    )
+    );
   }
 
   function handleDragStart(event: DragStartEvent) {
-    const { active } = event
-    const { id } = active
+    const { active } = event;
+    const { id } = active;
 
-    setActiveId(Number(id))
+    setActiveId(Number(id));
   }
 
   function handleDragOver(event: any) {
-    const { active, over, draggingRect } = event
-    const { id } = active
-    const { id: overId } = over
+    const { active, over, draggingRect } = event;
+    const { id } = active;
+    const { id: overId } = over;
 
     // Find the containers
-    const activeContainer = findContainer(id)
-    const overContainer = findContainer(overId)
+    const activeContainer = findContainer(Number(id));
+    const overContainer = findContainer(overId);
     if (
       !activeContainer ||
       !overContainer ||
       activeContainer === overContainer
     ) {
-      return
+      return;
     }
 
     setItems((prev) => {
-      const activeItems = prev[activeContainer]
-      const overItems = prev[overContainer]
+      const activeItems = prev[activeContainer];
+      const overItems = prev[overContainer];
       const activeIndex = items[activeContainer].findIndex(
         (item) => item.id === id
-      )
+      );
       const overIndex = items[overContainer].findIndex(
         (item) => item.id === overId
-      )
+      );
 
-      let newIndex
+      let newIndex;
       if (overId in prev) {
-        newIndex = overItems.length
+        newIndex = overItems.length;
       } else {
         const isBelowLastItem =
           over &&
           overIndex === overItems.length &&
-          draggingRect.offsetTop > over.rect.offsetTop + over.rect.height
-        const modifier = isBelowLastItem ? 1 : 0
-        newIndex = overIndex >= 0 ? overIndex + modifier : overItems.length
+          draggingRect.offsetTop > over.rect.offsetTop + over.rect.height;
+        const modifier = isBelowLastItem ? 1 : 0;
+        newIndex = overIndex >= 0 ? overIndex + modifier : overItems.length;
       }
 
       return {
@@ -145,38 +145,38 @@ export const KabanBoard: React.FC<KabanProps> = () => {
           items[activeContainer][activeIndex],
           ...prev[overContainer].slice(newIndex, prev[overContainer].length)
         ]
-      }
-    })
+      };
+    });
   }
 
   function handleDragEnd(event: any) {
-    const { active, over } = event
-    const { id } = active
-    const { id: overId } = over
+    const { active, over } = event;
+    const { id } = active;
+    const { id: overId } = over;
 
-    const activeContainer = findContainer(id)
-    const overContainer = findContainer(overId)
+    const activeContainer = findContainer(id);
+    const overContainer = findContainer(overId);
 
     if (
       !activeContainer ||
       !overContainer ||
       activeContainer !== overContainer
     ) {
-      return
+      return;
     }
 
     const activeIndex = items[activeContainer].findIndex(
       (item) => item.id === active.id
-    )
-    const overIndex = items[overContainer].indexOf(overId)
+    );
+    const overIndex = items[overContainer].indexOf(overId);
 
     if (activeIndex !== overIndex) {
       setItems((items) => ({
         ...items,
         [overContainer]: arrayMove(items[overContainer], activeIndex, overIndex)
-      }))
+      }));
     }
 
-    setActiveId(null)
+    setActiveId(null);
   }
-}
+};

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { NavLink, Link, type LinkProps } from 'react-router-dom';
 
 interface NavbarProps {
   $extendNavbar?: boolean;
@@ -29,20 +29,23 @@ export const RightContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   padding-right: 50px;
+  align-items: center;
 `;
 
 export const NavbarInnerContainer = styled.div`
   width: 100%;
   height: 80px;
   display: flex;
+  padding: 10px;
 `;
 
 export const NavbarLinkContainer = styled.div`
   display: flex;
 `;
 
-export const NavbarLink = styled(Link)`
-  color: ${(props) => props.theme.colors.white};
+export const NavbarLink: React.FC<
+  LinkProps & { activeClassName?: string }
+> = styled(NavLink)`
   font-size: ${(props) => props.theme.fontSizes.small};
   text-decoration: none;
   margin: 10px;
@@ -50,10 +53,14 @@ export const NavbarLink = styled(Link)`
   @media (max-width: 700px) {
     display: none;
   }
+
+  &.active {
+    color: ${(props) => props.theme.colors.green[0]};
+    font-weight: bold;
+  }
 `;
 
 export const NavbarLinkExtended = styled(Link)`
-  color: white;
   text-decoration: none;
   margin: 10px;
 `;
@@ -69,7 +76,6 @@ export const OpenLinksButton = styled.button`
   height: 50px;
   background: none;
   border: none;
-  color: white;
   font-size: 45px;
   cursor: pointer;
 

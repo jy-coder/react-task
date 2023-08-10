@@ -17,6 +17,7 @@ import RegisterForm from './forms/RegisterForm';
 import { KabanBoard, Task } from './pages/Task';
 import ProtectedRoute from './route/ProtectedRoute';
 import GlobalStyle from './provider/globalStyles';
+import { useTheme } from 'styled-components';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,7 +34,6 @@ function App() {
     <Fragment>
       <Theme>
         <GlobalStyle />
-
         <AppContextProvider>
           <UserContextProvider>
             <QueryClientProvider client={queryClient}>
@@ -63,7 +63,10 @@ function App() {
                   </Routes>
                 </Layout>
               </QueryBoundaries>
-              <ToastContainer hideProgressBar={true} />
+              <ToastContainer
+                hideProgressBar={true}
+                toastStyle={{ backgroundColor: '#1a2332' }}
+              />
               <ReactQueryDevtools
                 initialIsOpen={false}
                 position="bottom-right"

@@ -14,10 +14,7 @@ const Layout: React.FC<ILayoutProps> = ({ children }) => {
 
   const authRoute = {
     left: [],
-    right: [
-      { link: '/notification', label: 'notification' },
-      { link: '/logout', label: 'logout' }
-    ]
+    right: [{ link: '/notification', label: 'Notification' }]
   };
 
   const noAuthRoute = {

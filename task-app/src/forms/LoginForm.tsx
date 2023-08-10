@@ -11,6 +11,7 @@ import Paper from '../components/styled/paper/Paper.style';
 import Input from '../components/styled/input/Input';
 import { Button } from '../components/styled/button/button.style';
 import { Stack } from '../components/styled/stack/Stack.style';
+import { toast } from 'react-toastify';
 
 // let renderCount = 0;
 
@@ -32,6 +33,7 @@ export const LoginForm = () => {
   const { mutate } = useMutation(loginUserFn, {
     onSuccess: () => {
       setIsAuth(true);
+      toast.success('Login successfully');
       navigate('/tasks');
     }
   });
