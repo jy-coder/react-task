@@ -25,6 +25,8 @@
     "react/prop-types": "off",
     "@typescript-eslint/indent": "off",
     "@typescript-eslint/space-before-function-paren": "off",
-    "@typescript-eslint/semi": "off"
+    "@typescript-eslint/semi": "off",
+    "@typescript-eslint/member-delimiter-style": "off",
+    "@typescript-eslint/array-type": "off"
   }
 }
