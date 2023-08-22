@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { type RegisterInput, signUpUserFn } from '../api/authApi';
-import Center from '../components/styled/Center.style';
+import Center from '../components/flex/Center.style';
 import { Stack } from '../components/styled/stack/Stack.style';
 import Paper from '../components/styled/paper/Paper.style';
 import Input from '../components/styled/input/Input';
@@ -52,7 +52,7 @@ const RegisterForm: React.FC<IRegisterFormProps> = (props) => {
               data-testid="email"
               type="email"
               placeholder="Email"
-              onKeyDown={(e: any) =>
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
                 e.key === 'Enter' ? handleSubmit(onSubmit) : ''
               }
               {...register('username', {
@@ -90,7 +90,7 @@ const RegisterForm: React.FC<IRegisterFormProps> = (props) => {
                 }
               })}
               error={errors.confirmPassword?.message}
-              onKeyDown={(e) =>
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
                 e.key === 'Enter' ? handleSubmit(onSubmit) : ''
               }
             />

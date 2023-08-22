@@ -6,7 +6,7 @@ import { useContext } from 'react';
 import { type User } from '../types';
 import UserContext from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
-import Center from '../components/styled/Center.style';
+import Center from '../components/flex/Center.style';
 import Paper from '../components/styled/paper/Paper.style';
 import Input from '../components/styled/input/Input';
 import { Button } from '../components/styled/button/button.style';
@@ -55,7 +55,7 @@ export const LoginForm = () => {
               data-testid="email"
               type="email"
               placeholder="Email"
-              onKeyDown={(e: any) =>
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
                 e.key === 'Enter' ? handleSubmit(onSubmit) : ''
               }
               {...register('username', {
@@ -75,7 +75,7 @@ export const LoginForm = () => {
               placeholder="Password"
               {...register('password', { required: 'Password is required' })}
               error={errors.password?.message}
-              onKeyDown={(e) =>
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
                 e.key === 'Enter' ? handleSubmit(onSubmit) : ''
               }
             />

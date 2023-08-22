@@ -1,4 +1,3 @@
-'use client';
 import React, { useState } from 'react';
 
 import {
@@ -11,18 +10,12 @@ import {
   useSensors
 } from '@dnd-kit/core';
 
-import type { DragOverEvent, DragStartEvent, Over } from '@dnd-kit/core';
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import { Container } from '../components/draggable/Container';
+import { DraggableContainer } from '../components/draggable/DraggableContainer';
 import { Item } from '../components/draggable/Item';
-
-const wrapperStyle: {
-  display: 'flex' | 'block' | 'inline' | 'inline-block';
-  flexDirection: 'row' | 'row-reverse' | 'column' | 'column-reverse';
-} = {
-  display: 'flex',
-  flexDirection: 'row'
-};
+import Wrapper from '../components/flex/Wrapper.style';
+import Modal from '../components/styled/modal/Modal';
+import TaskForm from '../forms/TaskForm';
 
 type ItemsObject<T> = Record<string, T[]>;
 
@@ -61,23 +54,34 @@ export const KabanBoard: React.FC<KabanProps> = () => {
   );
 
   return (
-    <div style={wrapperStyle}>
-      <DndContext
-        id="dnd"
-        sensors={sensors}
-        collisionDetection={closestCorners}
-        onDragStart={handleDragStart}
-        onDragOver={handleDragOver}
-        onDragEnd={handleDragEnd}
-      >
-        <Container id="container1" items={items.container1} />
-        <Container id="container2" items={items.container2} />
-        <Container id="container3" items={items.container3} />
-        <DragOverlay>
-          {activeId ? <Item id={Number(activeId)} /> : null}
-        </DragOverlay>
-      </DndContext>
-    </div>
+    <Wrapper $width="100wv">
+      <Wrapper $alignItems="flex-end" $padding="20px">
+        <Modal
+          displayLabel={''}
+          buttonLabel={'Add Task'}
+          content={<TaskForm />}
+        />
+        {/* <Button width="150px">Add task</Button> */}
+      </Wrapper>
+
+      <Wrapper $flexDirection="row">
+        <DndContext
+          id="dnd"
+          sensors={sensors}
+          collisionDetection={closestCorners}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragEnd={handleDragEnd}
+        >
+          <DraggableContainer id="container1" items={items.container1} />
+          <DraggableContainer id="container2" items={items.container2} />
+          <DraggableContainer id="container3" items={items.container3} />
+          <DragOverlay>
+            {activeId ? <Item id={Number(activeId)} /> : null}
+          </DragOverlay>
+        </DndContext>
+      </Wrapper>
+    </Wrapper>
   );
 
   function findContainer(id: number) {
@@ -90,7 +94,7 @@ export const KabanBoard: React.FC<KabanProps> = () => {
     );
   }
 
-  function handleDragStart(event: DragStartEvent) {
+  function handleDragStart(event: any) {
     const { active } = event;
     const { id } = active;
 
@@ -114,7 +118,6 @@ export const KabanBoard: React.FC<KabanProps> = () => {
     }
 
     setItems((prev) => {
-      const activeItems = prev[activeContainer];
       const overItems = prev[overContainer];
       const activeIndex = items[activeContainer].findIndex(
         (item) => item.id === id
