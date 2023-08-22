@@ -46,7 +46,7 @@ const NavBar: React.FC<INavBarProps> = ({ navigation }) => {
         </LeftContainer>
         <RightContainer>
           {navigation.right.map((linkData, index) => (
-            <NavbarLink key={index} to={linkData.link} activeClassName="active">
+            <NavbarLink key={index} to={linkData.link}>
               {linkData.label}
             </NavbarLink>
           ))}
