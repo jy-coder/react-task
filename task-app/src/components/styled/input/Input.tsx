@@ -7,11 +7,20 @@ import {
 } from './Input.style';
 
 interface InputProps {
-  type: string;
+  type:
+    | 'text'
+    | 'password'
+    | 'number'
+    | 'email'
+    | 'search'
+    | 'tel'
+    | 'url'
+    | 'date';
   placeholder: string;
   onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   label: string;
   error?: string;
+  lineHeight?: string;
 }
 
 const Input: React.ForwardRefRenderFunction<HTMLInputElement, InputProps> = (

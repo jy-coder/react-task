@@ -9,5 +9,6 @@ interface StackProps {
 export const Stack = styled.div<StackProps>`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: ${(props) => props.spacing ?? '20px'};
+  justify-content: ${(props) => props.justify ?? 'flex-start'};
 `;

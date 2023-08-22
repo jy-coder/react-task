@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 interface ButtonProps {
   color?: string;
+  width?: string;
 }
 
 export const Button = styled.button<ButtonProps>`
@@ -12,4 +13,5 @@ export const Button = styled.button<ButtonProps>`
   color: white;
   font-size: 16px;
   cursor: pointer;
+  width: ${(props) => props.width ?? 'auto'};
 `;
