@@ -6,12 +6,12 @@ import { useContext } from 'react';
 import { type User } from '../types';
 import UserContext from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
-import Center from '../components/flex/Center.style';
+import Center from '../components/styled/flex/Center.style';
 import Paper from '../components/styled/paper/Paper.style';
 import Input from '../components/styled/input/Input';
-import { Button } from '../components/styled/button/button.style';
-import { Stack } from '../components/styled/stack/Stack.style';
 import { toast } from 'react-toastify';
+import { Button } from '../components/styled/button/Button';
+import Stack from '../components/styled/stack/Stack';
 
 // let renderCount = 0;
 
@@ -79,11 +79,7 @@ export const LoginForm = () => {
                 e.key === 'Enter' ? handleSubmit(onSubmit) : ''
               }
             />
-            <Stack>
-              <Button type="submit" data-testid="login">
-                Login
-              </Button>
-            </Stack>
+            <Button type="submit" data-testid="login" displayLabel="Login" />
           </Stack>
         </form>
       </Paper>

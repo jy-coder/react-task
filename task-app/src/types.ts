@@ -1,7 +1,4 @@
-export interface Task {
-  id: number;
-  name: string;
-}
+import { StringLiteral } from 'typescript';
 
 export interface User {
   isAuth: boolean;
@@ -19,4 +16,5 @@ export interface UserInfo {
 export interface TaskInput {
   name: string;
   description: string;
+  status: string;
 }

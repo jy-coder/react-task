@@ -1,18 +1,22 @@
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { type RegisterInput, signUpUserFn } from '../api/authApi';
-import { Stack } from '../components/styled/stack/Stack.style';
 import Input from '../components/styled/input/Input';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { DevTool } from '@hookform/devtools';
 import { TaskInput } from '../types';
+import { createTask } from '../api/taskApi';
+import { Button } from '../components/styled/button/Button';
+import Stack from '../components/styled/stack/Stack';
+import { queryClient } from '../App';
+import { useContext } from 'react';
+import AppContext from '../context/AppContext';
 
 interface ITaskFormProps {}
 
-const TaskForm: React.FC<ITaskFormProps> = (props) => {
-  const navigate = useNavigate();
+const TaskForm: React.FC<ITaskFormProps> = () => {
+  const { setModalOpen } = useContext(AppContext);
+
   const {
     handleSubmit,
     register,
@@ -25,14 +29,20 @@ const TaskForm: React.FC<ITaskFormProps> = (props) => {
     }
   });
 
-  const { mutate } = useMutation(signUpUserFn, {
+  const { mutate } = useMutation(createTask, {
     onSuccess: () => {
       toast.success('Task created successfully');
+      setModalOpen(false);
+      queryClient.invalidateQueries(['user-tasks']);
     }
   });
 
   const onSubmit = (taskInput: TaskInput) => {
-    // call add task API
+    const data = {
+      ...taskInput,
+      userId: '20ee7579-ded7-4940-9cfc-896dea4f9548'
+    };
+    mutate(data);
   };
 
   return (
@@ -63,6 +73,21 @@ const TaskForm: React.FC<ITaskFormProps> = (props) => {
             e.key === 'Enter' ? handleSubmit(onSubmit) : ''
           }
         />
+        <Input
+          type="text"
+          label="Status"
+          placeholder="Status"
+          {...register('status', {
+            required: 'Task status is required'
+          })}
+          error={errors.status?.message}
+          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
+            e.key === 'Enter' ? handleSubmit(onSubmit) : ''
+          }
+        />
+      </Stack>
+      <Stack margin="30px 10px">
+        <Button type="submit" data-testid="login" displayLabel="Create Task" />
       </Stack>
       <DevTool control={control} />
     </form>

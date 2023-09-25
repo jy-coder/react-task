@@ -14,12 +14,13 @@ import { QueryBoundaries } from './suspense/QueryBoundaries';
 import { Fragment, useContext } from 'react';
 import { type User } from './types';
 import RegisterForm from './forms/RegisterForm';
-import { KabanBoard, Task } from './pages/Task';
 import ProtectedRoute from './route/ProtectedRoute';
 import GlobalStyle from './provider/globalStyles';
 import { useTheme } from 'styled-components';
+import { TaskBoard } from './pages/TaskBoard';
+import { KanbanBoard } from './pages/KabanBoard';
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       suspense: true
@@ -52,7 +53,7 @@ function App() {
                       path="/tasks"
                       element={
                         // <ProtectedRoute>
-                        <KabanBoard />
+                        <KanbanBoard />
                         // </ProtectedRoute>
                       }
                     />

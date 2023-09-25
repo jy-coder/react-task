@@ -2,14 +2,14 @@ import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { type RegisterInput, signUpUserFn } from '../api/authApi';
-import Center from '../components/flex/Center.style';
-import { Stack } from '../components/styled/stack/Stack.style';
+import Center from '../components/styled/flex/Center.style';
 import Paper from '../components/styled/paper/Paper.style';
 import Input from '../components/styled/input/Input';
-import { Button } from '../components/styled/button/button.style';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { DevTool } from '@hookform/devtools';
+import { Button } from '../components/styled/button/Button';
+import Stack from '../components/styled/stack/Stack';
 
 interface IRegisterFormProps {}
 
@@ -95,9 +95,11 @@ const RegisterForm: React.FC<IRegisterFormProps> = (props) => {
               }
             />
             <Stack>
-              <Button type="submit" data-testid="register">
-                Register
-              </Button>
+              <Button
+                type="submit"
+                data-testid="register"
+                displayLabel="register"
+              />
             </Stack>
           </Stack>
         </form>

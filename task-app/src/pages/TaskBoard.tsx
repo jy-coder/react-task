@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   DndContext,
@@ -9,42 +9,36 @@ import {
   useSensor,
   useSensors
 } from '@dnd-kit/core';
-
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { DraggableContainer } from '../components/draggable/DraggableContainer';
 import { Item } from '../components/draggable/Item';
-import Wrapper from '../components/flex/Wrapper.style';
 import Modal from '../components/styled/modal/Modal';
 import TaskForm from '../forms/TaskForm';
+import FlexItem from '../components/styled/flex/FlexItem.style';
+import { Plus } from 'tabler-icons-react';
+import Wrapper from '../components/styled/flex/Wrapper';
+import { TaskResponse } from '../hooks/useTaskData';
 
-type ItemsObject<T> = Record<string, T[]>;
-
-export interface Task {
-  id: number;
-  name: string;
+interface TaskBoardProps {
+  tasks: TaskResponse;
 }
 
-interface KabanProps {}
+export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
+  const [items, setItems] = useState<TaskResponse>({});
+  const [activeId, setActiveId] = useState<string | null>();
+  const taskType = ['Pending', 'To Do', 'In Progress'];
+  const keyNames = ['pending', 'todo', 'inProgress'];
 
-export const KabanBoard: React.FC<KabanProps> = () => {
-  const [items, setItems] = useState<ItemsObject<Task>>({
-    container1: [
-      { id: 1, name: 'Task 1' },
-      { id: 2, name: 'Task 2' },
-      { id: 3, name: 'Task 3' }
-    ],
-    container2: [
-      { id: 4, name: 'Task 4' },
-      { id: 5, name: 'Task 5' },
-      { id: 6, name: 'Task 6' }
-    ],
-    container3: [
-      { id: 7, name: 'Task 7' },
-      { id: 8, name: 'Task 8' },
-      { id: 9, name: 'Task 9' }
-    ]
-  });
-  const [activeId, setActiveId] = useState<number | null>();
+  useEffect(() => {
+    const updatedItems = { ...tasks };
+
+    keyNames.forEach((keyName) => {
+      if (!(keyName in updatedItems)) {
+        updatedItems[keyName] = [];
+      }
+    });
+    setItems(updatedItems);
+  }, [tasks]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -54,17 +48,27 @@ export const KabanBoard: React.FC<KabanProps> = () => {
   );
 
   return (
-    <Wrapper $width="100wv">
-      <Wrapper $alignItems="flex-end" $padding="20px">
-        <Modal
-          displayLabel={''}
-          buttonLabel={'Add Task'}
-          content={<TaskForm />}
-        />
-        {/* <Button width="150px">Add task</Button> */}
+    <Wrapper>
+      <Modal
+        icon={<Plus />}
+        content={<TaskForm />}
+        footerDisplayLabel="Create Task"
+      />
+      <Wrapper flexDirection="row">
+        {taskType.map((type, index) => (
+          <Wrapper
+            key={index}
+            padding="10px"
+            height="1vh"
+            margin="10px"
+            flexDirection="row"
+          >
+            <FlexItem flex="50%"> {type}</FlexItem>
+            <FlexItem flex="50%" alignItems="flex-end"></FlexItem>
+          </Wrapper>
+        ))}
       </Wrapper>
-
-      <Wrapper $flexDirection="row">
+      <Wrapper flexDirection="row">
         <DndContext
           id="dnd"
           sensors={sensors}
@@ -73,24 +77,22 @@ export const KabanBoard: React.FC<KabanProps> = () => {
           onDragOver={handleDragOver}
           onDragEnd={handleDragEnd}
         >
-          <DraggableContainer id="container1" items={items.container1} />
-          <DraggableContainer id="container2" items={items.container2} />
-          <DraggableContainer id="container3" items={items.container3} />
-          <DragOverlay>
-            {activeId ? <Item id={Number(activeId)} /> : null}
-          </DragOverlay>
+          <DraggableContainer id="pending" items={items?.pending ?? []} />
+          <DraggableContainer id="todo" items={items?.todo ?? []} />
+          <DraggableContainer id="inProgress" items={items?.inProgress ?? []} />
+          <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
         </DndContext>
       </Wrapper>
     </Wrapper>
   );
 
-  function findContainer(id: number) {
+  function findContainer(id: string) {
     if (id in items) {
       return id;
     }
 
     return Object.keys(items).find((key) =>
-      items[key].some((task) => task.id === id)
+      items[key].some((task) => task.taskId === id)
     );
   }
 
@@ -98,17 +100,17 @@ export const KabanBoard: React.FC<KabanProps> = () => {
     const { active } = event;
     const { id } = active;
 
-    setActiveId(Number(id));
+    setActiveId(id);
   }
 
   function handleDragOver(event: any) {
     const { active, over, draggingRect } = event;
     const { id } = active;
     const { id: overId } = over;
-
     // Find the containers
-    const activeContainer = findContainer(Number(id));
+    const activeContainer = findContainer(id);
     const overContainer = findContainer(overId);
+    console.log(activeContainer, overContainer);
     if (
       !activeContainer ||
       !overContainer ||
@@ -120,10 +122,10 @@ export const KabanBoard: React.FC<KabanProps> = () => {
     setItems((prev) => {
       const overItems = prev[overContainer];
       const activeIndex = items[activeContainer].findIndex(
-        (item) => item.id === id
+        (item) => item.taskId === id
       );
       const overIndex = items[overContainer].findIndex(
-        (item) => item.id === overId
+        (item) => item.taskId === overId
       );
 
       let newIndex;
@@ -141,7 +143,7 @@ export const KabanBoard: React.FC<KabanProps> = () => {
       return {
         ...prev,
         [activeContainer]: [
-          ...prev[activeContainer].filter((item) => item.id !== active.id)
+          ...prev[activeContainer].filter((item) => item.taskId !== active.id)
         ],
         [overContainer]: [
           ...prev[overContainer].slice(0, newIndex),
@@ -169,7 +171,7 @@ export const KabanBoard: React.FC<KabanProps> = () => {
     }
 
     const activeIndex = items[activeContainer].findIndex(
-      (item) => item.id === active.id
+      (item) => item.taskId === active.id
     );
     const overIndex = items[overContainer].indexOf(overId);
 
