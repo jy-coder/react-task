@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
-interface ButtonProps {
-  color?: string;
-  width?: string;
+export interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
+  icon?: React.ReactNode;
+  displayLabel?: string;
+  onClick?: () => void;
 }
 
-export const Button = styled.button<ButtonProps>`
+export const StyledButton = styled.button<ButtonProps>`
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -13,5 +14,4 @@ export const Button = styled.button<ButtonProps>`
   color: white;
   font-size: 16px;
   cursor: pointer;
-  width: ${(props) => props.width ?? 'auto'};
 `;

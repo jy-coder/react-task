@@ -1,66 +1,61 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './modal.css';
-import { Button } from '../button/button.style';
+import { Button } from '../button/Button';
+import AppContext from '../../../context/AppContext';
+
 interface DialogProps {
-  setOpenModal: (value: boolean) => void;
+  // setOpenModal: (value: boolean) => void;
   content?: JSX.Element;
+  footerDisplayLabel?: string;
 }
 
-const Dialog: React.FC<DialogProps> = ({ setOpenModal, content }) => {
+const Dialog: React.FC<DialogProps> = ({ content, footerDisplayLabel }) => {
+  const { setModalOpen } = useContext(AppContext);
   return (
     <div className="modalBackground">
       <div className="modalContainer">
         <div className="titleCloseBtn">
           <button
             onClick={() => {
-              setOpenModal(false);
+              setModalOpen(false);
             }}
           >
             X
           </button>
         </div>
         <div className="body">{content}</div>
-        <div className="footer">
-          <Button
-            onClick={() => {
-              setOpenModal(false);
-            }}
-          >
-            Save
-          </Button>
-          {/* <Button>Continue</Button> */}
-        </div>
+        <div className="footer"></div>
       </div>
     </div>
   );
 };
 
 interface ModalProps {
-  displayLabel: string;
-  buttonLabel: string;
+  modalLabel?: string;
   content: JSX.Element;
-  //   setOpenModal: (value: boolean) => void;
+  icon?: JSX.Element;
+  footerDisplayLabel?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({
-  displayLabel,
-  buttonLabel,
-  content
-}) => {
-  const [modalOpen, setModalOpen] = useState(false);
-
+const Modal: React.FC<ModalProps> = ({ content, icon, footerDisplayLabel }) => {
+  // const [modalOpen, setModalOpen] = useState(false);
+  const { modalOpen, setModalOpen } = useContext(AppContext);
   return (
     <div className="Modal">
-      <h1>{displayLabel}</h1>
       <Button
-        className="openModalBtn"
+        icon={icon}
+        color=""
+        // className="openModalBtn"
         onClick={() => {
           setModalOpen(true);
         }}
-      >
-        {buttonLabel}
-      </Button>
-      {modalOpen && <Dialog setOpenModal={setModalOpen} content={content} />}
+      ></Button>
+      {modalOpen && (
+        <Dialog
+          content={content}
+          footerDisplayLabel={footerDisplayLabel ?? ''}
+        />
+      )}
     </div>
   );
 };
