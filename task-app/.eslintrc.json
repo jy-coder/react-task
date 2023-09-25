@@ -27,6 +27,7 @@
     "@typescript-eslint/space-before-function-paren": "off",
     "@typescript-eslint/semi": "off",
     "@typescript-eslint/member-delimiter-style": "off",
-    "@typescript-eslint/array-type": "off"
+    "@typescript-eslint/array-type": "off",
+    "@typescript-eslint/consistent-type-imports": "off"
   }
 }
