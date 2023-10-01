@@ -22,7 +22,7 @@ import { useMutation } from '@tanstack/react-query';
 import { updateTask } from '../api/taskApi';
 import { Task } from '../types';
 import { showSuccessToast } from '../utils/toast';
-
+import LoadingOverlay from 'react-loading-overlay-ts';
 interface TaskBoardProps {
   tasks: TaskResponse;
 }
@@ -30,21 +30,16 @@ interface TaskBoardProps {
 export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
   const [items, setItems] = useState<TaskResponse>({});
   const [activeId, setActiveId] = useState<string | null>();
-  const [activeTask, setActiveTask] = useState<Task>();
 
   const taskType = ['Pending', 'To Do', 'In Progress'];
   const keyNames = ['pending', 'todo', 'inProgress'];
-  const { mutate } = useMutation(updateTask, {
+  const { mutate, isLoading: updateTaskIsLoading } = useMutation(updateTask, {
     onSuccess: () => {
       showSuccessToast('Task updated', 'task-updated');
     }
   });
 
-  const updateStatus = (status: string) => {
-    if (!activeTask) {
-      return;
-    }
-
+  const updateStatus = (status: string, activeTask: Task) => {
     const { createDate, ...taskInput } = activeTask;
     const data = {
       ...taskInput,
@@ -70,44 +65,50 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
       coordinateGetter: sortableKeyboardCoordinates
     })
   );
-
   return (
-    <Wrapper>
-      <Modal
-        icon={<Plus />}
-        content={<TaskForm />}
-        footerDisplayLabel="Create Task"
-      />
-      <Wrapper flexDirection="row">
-        {taskType.map((type, index) => (
-          <Wrapper
-            key={index}
-            padding="10px"
-            height="1vh"
-            margin="10px"
-            flexDirection="row"
+    <LoadingOverlay active={updateTaskIsLoading} spinner>
+      <Wrapper>
+        <Modal
+          icon={<Plus />}
+          content={<TaskForm />}
+          footerDisplayLabel="Create Task"
+        />
+        <Wrapper flexDirection="row">
+          {taskType.map((type, index) => (
+            <Wrapper
+              key={index}
+              padding="10px"
+              height="1vh"
+              margin="10px"
+              flexDirection="row"
+            >
+              <FlexItem flex="50%"> {type}</FlexItem>
+              <FlexItem flex="50%" alignItems="flex-end"></FlexItem>
+            </Wrapper>
+          ))}
+        </Wrapper>
+        <Wrapper flexDirection="row">
+          <DndContext
+            id="dnd"
+            sensors={sensors}
+            collisionDetection={closestCorners}
+            onDragStart={handleDragStart}
+            onDragOver={handleDragOver}
+            onDragEnd={handleDragEnd}
           >
-            <FlexItem flex="50%"> {type}</FlexItem>
-            <FlexItem flex="50%" alignItems="flex-end"></FlexItem>
-          </Wrapper>
-        ))}
+            <DraggableContainer id="pending" items={items?.pending ?? []} />
+            <DraggableContainer id="todo" items={items?.todo ?? []} />
+            <DraggableContainer
+              id="inProgress"
+              items={items?.inProgress ?? []}
+            />
+            <DragOverlay>
+              {activeId ? <Item id={activeId} /> : null}
+            </DragOverlay>
+          </DndContext>
+        </Wrapper>
       </Wrapper>
-      <Wrapper flexDirection="row">
-        <DndContext
-          id="dnd"
-          sensors={sensors}
-          collisionDetection={closestCorners}
-          onDragStart={handleDragStart}
-          onDragOver={handleDragOver}
-          onDragEnd={handleDragEnd}
-        >
-          <DraggableContainer id="pending" items={items?.pending ?? []} />
-          <DraggableContainer id="todo" items={items?.todo ?? []} />
-          <DraggableContainer id="inProgress" items={items?.inProgress ?? []} />
-          <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
-        </DndContext>
-      </Wrapper>
-    </Wrapper>
+    </LoadingOverlay>
   );
 
   function findContainer(id: string) {
@@ -182,7 +183,6 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
     const { active, over } = event;
     const { id } = active;
     const { id: overId } = over;
-
     const activeContainer = findContainer(id);
     const overContainer = findContainer(overId);
 
@@ -192,8 +192,10 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
     const activeTask = items[activeContainer].find(
       (item) => item.taskId === id
     );
-    setActiveTask(activeTask);
-    updateStatus(overContainer);
+    if (!activeTask) {
+      return;
+    }
+    updateStatus(overContainer, activeTask);
 
     if (
       !activeContainer ||
