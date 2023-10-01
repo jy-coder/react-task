@@ -1,11 +1,6 @@
 import { useQuery, QueryKey, UseQueryOptions } from '@tanstack/react-query';
 import { getTasks } from '../api/taskApi';
-
-export interface Task {
-  id: string;
-  taskId: string;
-  description: string;
-}
+import { Task } from '../types';
 
 interface UseTasksDataOptions extends UseQueryOptions<TaskResponse, Error> {
   onSuccess?: (data: TaskResponse) => void;

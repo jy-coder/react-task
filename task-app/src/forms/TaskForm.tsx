@@ -11,6 +11,7 @@ import Stack from '../components/styled/stack/Stack';
 import { queryClient } from '../App';
 import { useContext } from 'react';
 import AppContext from '../context/AppContext';
+import { showSuccessToast } from '../utils/toast';
 
 interface ITaskFormProps {}
 
@@ -31,7 +32,7 @@ const TaskForm: React.FC<ITaskFormProps> = () => {
 
   const { mutate } = useMutation(createTask, {
     onSuccess: () => {
-      toast.success('Task created successfully');
+      showSuccessToast('Task created successfully', 'task-created');
       setModalOpen(false);
       queryClient.invalidateQueries(['user-tasks']);
     }

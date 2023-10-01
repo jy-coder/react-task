@@ -53,4 +53,20 @@ export class AxiosRequest {
     );
     return response.data;
   }
+
+  public async put<T>(url: string, data?: any): Promise<T> {
+    const response: AxiosResponse<T> = await this.axiosInstance.put<T>(
+      url,
+      data
+    );
+    return response.data;
+  }
+
+  public async delete<T>(url: string, data?: any): Promise<T> {
+    const response: AxiosResponse<T> = await this.axiosInstance.delete<T>(
+      url,
+      data
+    );
+    return response.data;
+  }
 }

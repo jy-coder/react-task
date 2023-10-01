@@ -6,7 +6,7 @@ import {
 } from '@dnd-kit/sortable';
 import { SortableItem } from './SortableItem';
 import Container from '../styled/container/Container';
-import { Task } from '../../hooks/useTaskData';
+import { Task } from '../../types';
 
 interface DraggableContainerProps {
   id: string;

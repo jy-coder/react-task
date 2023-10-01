@@ -17,4 +17,14 @@ export interface TaskInput {
   name: string;
   description: string;
   status: string;
+  taskId?: string;
+}
+
+export interface Task {
+  id: string;
+  name: string;
+  taskId: string;
+  description: string;
+  status: string;
+  createDate?: string;
 }

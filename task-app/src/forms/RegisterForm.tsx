@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { DevTool } from '@hookform/devtools';
 import { Button } from '../components/styled/button/Button';
 import Stack from '../components/styled/stack/Stack';
+import { showSuccessToast } from '../utils/toast';
 
 interface IRegisterFormProps {}
 
@@ -31,7 +32,7 @@ const RegisterForm: React.FC<IRegisterFormProps> = (props) => {
 
   const { mutate } = useMutation(signUpUserFn, {
     onSuccess: () => {
-      toast.success('Register successfully');
+      showSuccessToast('Login successfully', 'login');
       navigate('/login');
     }
   });

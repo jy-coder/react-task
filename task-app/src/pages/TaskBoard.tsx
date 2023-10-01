@@ -18,6 +18,10 @@ import FlexItem from '../components/styled/flex/FlexItem.style';
 import { Plus } from 'tabler-icons-react';
 import Wrapper from '../components/styled/flex/Wrapper';
 import { TaskResponse } from '../hooks/useTaskData';
+import { useMutation } from '@tanstack/react-query';
+import { updateTask } from '../api/taskApi';
+import { Task } from '../types';
+import { showSuccessToast } from '../utils/toast';
 
 interface TaskBoardProps {
   tasks: TaskResponse;
@@ -26,8 +30,28 @@ interface TaskBoardProps {
 export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
   const [items, setItems] = useState<TaskResponse>({});
   const [activeId, setActiveId] = useState<string | null>();
+  const [activeTask, setActiveTask] = useState<Task>();
+
   const taskType = ['Pending', 'To Do', 'In Progress'];
   const keyNames = ['pending', 'todo', 'inProgress'];
+  const { mutate } = useMutation(updateTask, {
+    onSuccess: () => {
+      showSuccessToast('Task updated', 'task-updated');
+    }
+  });
+
+  const updateStatus = (status: string) => {
+    if (!activeTask) {
+      return;
+    }
+
+    const { createDate, ...taskInput } = activeTask;
+    const data = {
+      ...taskInput,
+      status
+    };
+    mutate(data);
+  };
 
   useEffect(() => {
     const updatedItems = { ...tasks };
@@ -99,7 +123,6 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
   function handleDragStart(event: any) {
     const { active } = event;
     const { id } = active;
-
     setActiveId(id);
   }
 
@@ -107,10 +130,11 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
     const { active, over, draggingRect } = event;
     const { id } = active;
     const { id: overId } = over;
+
     // Find the containers
     const activeContainer = findContainer(id);
     const overContainer = findContainer(overId);
-    console.log(activeContainer, overContainer);
+
     if (
       !activeContainer ||
       !overContainer ||
@@ -161,6 +185,15 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
 
     const activeContainer = findContainer(id);
     const overContainer = findContainer(overId);
+
+    if (!activeContainer || !overContainer) {
+      return;
+    }
+    const activeTask = items[activeContainer].find(
+      (item) => item.taskId === id
+    );
+    setActiveTask(activeTask);
+    updateStatus(overContainer);
 
     if (
       !activeContainer ||

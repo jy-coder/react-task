@@ -2,7 +2,7 @@ import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Item } from './Item';
-import { Task } from '../../hooks/useTaskData';
+import { Task } from '../../types';
 
 export const SortableItem: React.FC<{
   id: string;
