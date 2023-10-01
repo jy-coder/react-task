@@ -35,7 +35,7 @@ const Input: React.ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
         type={type}
         placeholder={placeholder}
         onKeyDown={onKeyDown}
-        $hasError={!!error}
+        hasError={!!error}
         {...inputProps}
       />
       {error && <ErrorMessage>{error}</ErrorMessage>}

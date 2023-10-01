@@ -1,24 +1,20 @@
+import { CSSProperties, ReactNode } from 'react';
 import styled from 'styled-components';
 
-interface FlexItemProps {
-  display?: 'flex' | 'block' | 'inline' | 'inline-block';
-  flexDirection?: 'row' | 'row-reverse' | 'column' | 'column-reverse';
-  justifyContent?:
-    | 'flex-start'
-    | 'flex-end'
-    | 'center'
-    | 'space-between'
-    | 'space-around'
-    | 'space-evenly';
-  alignItems?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
-  width?: string;
-  padding?: string;
-  height?: string;
-  margin?: string;
-  flex?: string;
+export interface FlexItemProps extends React.ComponentPropsWithoutRef<'div'> {
+  display?: CSSProperties['display'];
+  flexDirection?: CSSProperties['flexDirection'];
+  justifyContent?: CSSProperties['justifyContent'];
+  alignItems?: CSSProperties['alignItems'];
+  width?: CSSProperties['width'];
+  padding?: CSSProperties['padding'];
+  height?: CSSProperties['height'];
+  margin?: CSSProperties['margin'];
+  flex?: CSSProperties['flex'];
+  children?: ReactNode;
 }
 
-const FlexItem = styled.div<FlexItemProps>`
+const StyledFlexItem = styled.div<FlexItemProps>`
   display: ${(props) => props.display ?? 'flex'};
   flex-direction: ${(props) => props.flexDirection ?? 'column'};
   justify-content: ${(props) => props.justifyContent ?? 'flex-start'};
@@ -30,4 +26,4 @@ const FlexItem = styled.div<FlexItemProps>`
   flex: ${(props) => props.flex ?? 'auto'};
 `;
 
-export default FlexItem;
+export default StyledFlexItem;

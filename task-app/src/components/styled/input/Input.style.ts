@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface StyledInputProps {
-  $hasError: boolean;
+  hasError: boolean;
   lineHeight?: string;
 }
 
@@ -12,7 +12,7 @@ export const InputContainer = styled.div`
 
 export const StyledInput = styled.input.attrs<StyledInputProps>((props) => ({
   style: {
-    border: props.$hasError
+    border: props.hasError
       ? `1px solid ${props.theme.colors.red[0]}`
       : `1px solid ${props.theme.colors.grey[0]}`,
     lineHeight: props.lineHeight ?? 'normal'

@@ -1,4 +1,3 @@
-import { AppShell, Header, Navbar } from '@mantine/core';
 import React, { type ReactNode, useContext } from 'react';
 import AppContext, { type IApp } from '../context/AppContext';
 import UserContext from '../context/UserContext';

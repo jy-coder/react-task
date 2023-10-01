@@ -16,13 +16,13 @@ import Modal from '../components/styled/modal/Modal';
 import TaskForm from '../forms/TaskForm';
 import FlexItem from '../components/styled/flex/FlexItem.style';
 import { Plus } from 'tabler-icons-react';
-import Wrapper from '../components/styled/flex/Wrapper';
 import { TaskResponse } from '../hooks/useTaskData';
 import { useMutation } from '@tanstack/react-query';
 import { updateTask } from '../api/taskApi';
 import { Task } from '../types';
 import { showSuccessToast } from '../utils/toast';
 import LoadingOverlay from 'react-loading-overlay-ts';
+import FlexWrapper from '../components/styled/flex/FlexWrapper';
 interface TaskBoardProps {
   tasks: TaskResponse;
 }
@@ -67,15 +67,15 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
   );
   return (
     <LoadingOverlay active={updateTaskIsLoading} spinner>
-      <Wrapper>
+      <FlexWrapper>
         <Modal
           icon={<Plus />}
           content={<TaskForm />}
           footerDisplayLabel="Create Task"
         />
-        <Wrapper flexDirection="row">
+        <FlexWrapper flexDirection="row">
           {taskType.map((type, index) => (
-            <Wrapper
+            <FlexWrapper
               key={index}
               padding="10px"
               height="1vh"
@@ -84,10 +84,10 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
             >
               <FlexItem flex="50%"> {type}</FlexItem>
               <FlexItem flex="50%" alignItems="flex-end"></FlexItem>
-            </Wrapper>
+            </FlexWrapper>
           ))}
-        </Wrapper>
-        <Wrapper flexDirection="row">
+        </FlexWrapper>
+        <FlexWrapper flexDirection="row">
           <DndContext
             id="dnd"
             sensors={sensors}
@@ -106,8 +106,8 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
               {activeId ? <Item id={activeId} /> : null}
             </DragOverlay>
           </DndContext>
-        </Wrapper>
-      </Wrapper>
+        </FlexWrapper>
+      </FlexWrapper>
     </LoadingOverlay>
   );
 

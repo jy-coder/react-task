@@ -1,21 +1,17 @@
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import styled from 'styled-components';
 
 export interface WrapperProps extends React.ComponentPropsWithoutRef<'div'> {
-  display?: 'flex' | 'block' | 'inline' | 'inline-block';
-  flexDirection?: 'row' | 'row-reverse' | 'column' | 'column-reverse';
-  justifyContent?:
-    | 'flex-start'
-    | 'flex-end'
-    | 'center'
-    | 'space-between'
-    | 'space-around'
-    | 'space-evenly';
-  alignItems?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
-  width?: string;
-  padding?: string;
-  height?: string;
-  margin?: string;
+  display?: CSSProperties['display'];
+  flexDirection?: CSSProperties['flexDirection'];
+  justifyContent?: CSSProperties['justifyContent'];
+  alignItems?: CSSProperties['alignItems'];
+  width?: CSSProperties['width'];
+  padding?: CSSProperties['padding'];
+  height?: CSSProperties['height'];
+  margin?: CSSProperties['margin'];
+  flex?: CSSProperties['flex'];
+  background?: CSSProperties['backgroundColor'];
   children: ReactNode;
 }
 
@@ -28,4 +24,5 @@ export const StyledWrapper = styled.div<WrapperProps>`
   padding: ${(props) => props.padding ?? '0'};
   height: ${(props) => props.height ?? 'auto'};
   margin: ${(props) => props.margin ?? 'auto'};
+  background: ${(props) => props.background ?? `${props.theme.colors.grey[1]}`};
 `;

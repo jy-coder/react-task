@@ -21,6 +21,7 @@ export interface TaskInput {
 }
 
 export interface Task {
+  // need id for draggable
   id: string;
   name: string;
   taskId: string;
