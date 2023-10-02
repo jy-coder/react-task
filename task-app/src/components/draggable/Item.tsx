@@ -1,14 +1,24 @@
-import { StyledContainer } from '../styled/container/Container.style';
 import { Trash } from 'tabler-icons-react';
 import FlexItem from '../styled/flex/FlexItem.style';
 import FlexWrapper from '../styled/flex/FlexWrapper';
+import { useMutation } from '@tanstack/react-query';
+import { deleteTask } from '../../api/taskApi';
+import { showSuccessToast } from '../../utils/toast';
+import { queryClient } from '../../utils/queryClient';
 
 interface ItemProps {
   id: string;
-  title?: string;
+  description?: string;
 }
 
-export const Item: React.FC<ItemProps> = ({ title }) => {
+export const Item: React.FC<ItemProps> = ({ id, description }) => {
+  const { mutate, isLoading: deleteTaskIsLoading } = useMutation(deleteTask, {
+    onSuccess: () => {
+      showSuccessToast('Task successfully deleted', 'task-deleted');
+      queryClient.invalidateQueries(['user-tasks']);
+    }
+  });
+
   return (
     <FlexWrapper
       flexDirection="column"
@@ -18,9 +28,14 @@ export const Item: React.FC<ItemProps> = ({ title }) => {
       margin="10px 0"
       background="#1C293C"
     >
-      <FlexItem alignItems="flex-start">{title}</FlexItem>
+      <FlexItem alignItems="flex-start">{description}</FlexItem>
       <FlexItem alignItems="flex-end">
-        <Trash />
+        <Trash
+          style={{ cursor: 'pointer' }}
+          onClick={(e: React.MouseEvent) => {
+            mutate(id);
+          }}
+        />
       </FlexItem>
     </FlexWrapper>
   );

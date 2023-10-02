@@ -18,7 +18,7 @@ export const SortableItem: React.FC<{
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <Item id={id} title={task.description} />
+      <Item id={id} description={task.description} />
     </div>
   );
 };

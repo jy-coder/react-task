@@ -19,14 +19,7 @@ import GlobalStyle from './provider/globalStyles';
 import { useTheme } from 'styled-components';
 import { TaskBoard } from './pages/TaskBoard';
 import { KanbanBoard } from './pages/KabanBoard';
-
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      suspense: true
-    }
-  }
-});
+import { queryClient } from './utils/queryClient';
 
 function App() {
   const { isAuth } = useContext<User>(UserContext);

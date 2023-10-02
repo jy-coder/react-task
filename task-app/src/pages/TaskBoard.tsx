@@ -31,11 +31,11 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
   const [items, setItems] = useState<TaskResponse>({});
   const [activeId, setActiveId] = useState<string | null>();
 
-  const taskType = ['Pending', 'To Do', 'In Progress'];
-  const keyNames = ['pending', 'todo', 'inProgress'];
+  const taskType = ['Pending', 'In Progress', 'Completed'];
+  const keyNames = ['pending', 'inProgress', 'completed'];
   const { mutate, isLoading: updateTaskIsLoading } = useMutation(updateTask, {
     onSuccess: () => {
-      showSuccessToast('Task updated', 'task-updated');
+      showSuccessToast('Task successfully updated', 'task-updated');
     }
   });
 
@@ -50,7 +50,6 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
 
   useEffect(() => {
     const updatedItems = { ...tasks };
-
     keyNames.forEach((keyName) => {
       if (!(keyName in updatedItems)) {
         updatedItems[keyName] = [];
@@ -60,7 +59,11 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
   }, [tasks]);
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8
+      }
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates
     })
@@ -97,11 +100,11 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
             onDragEnd={handleDragEnd}
           >
             <DraggableContainer id="pending" items={items?.pending ?? []} />
-            <DraggableContainer id="todo" items={items?.todo ?? []} />
             <DraggableContainer
               id="inProgress"
               items={items?.inProgress ?? []}
             />
+            <DraggableContainer id="completed" items={items?.completed ?? []} />
             <DragOverlay>
               {activeId ? <Item id={activeId} /> : null}
             </DragOverlay>

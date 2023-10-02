@@ -1,19 +1,29 @@
 import * as React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller, Control, FieldValues } from 'react-hook-form';
 import Input from '../components/styled/input/Input';
 import { useMutation } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
 import { DevTool } from '@hookform/devtools';
 import { TaskInput } from '../types';
 import { createTask } from '../api/taskApi';
 import { Button } from '../components/styled/button/Button';
 import Stack from '../components/styled/stack/Stack';
-import { queryClient } from '../App';
 import { useContext } from 'react';
 import AppContext from '../context/AppContext';
 import { showSuccessToast } from '../utils/toast';
+import { queryClient } from '../utils/queryClient';
+import { SelectBox } from '../components/select/SelectBox';
 
 interface ITaskFormProps {}
+interface IStatus {
+  value: string;
+  label: string;
+}
+
+const options: IStatus[] = [
+  { value: 'pending', label: 'Pending' },
+  { value: 'inProgress', label: 'In Progress' },
+  { value: 'completed', label: 'Completed' }
+];
 
 const TaskForm: React.FC<ITaskFormProps> = () => {
   const { setModalOpen } = useContext(AppContext);
@@ -26,7 +36,8 @@ const TaskForm: React.FC<ITaskFormProps> = () => {
   } = useForm<TaskInput>({
     defaultValues: {
       name: '',
-      description: ''
+      description: '',
+      status: ''
     }
   });
 
@@ -74,21 +85,28 @@ const TaskForm: React.FC<ITaskFormProps> = () => {
             e.key === 'Enter' ? handleSubmit(onSubmit) : ''
           }
         />
-        <Input
-          type="text"
-          label="Status"
-          placeholder="Status"
-          {...register('status', {
-            required: 'Task status is required'
-          })}
-          error={errors.status?.message}
-          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
-            e.key === 'Enter' ? handleSubmit(onSubmit) : ''
-          }
+        <Controller
+          name="status"
+          control={control}
+          render={({ field: { value, onChange, ref } }) => {
+            return (
+              <>
+                <label style={{ marginBottom: '-10px' }}>Status</label>
+                <SelectBox
+                  classNamePrefix="react-select"
+                  onChange={(selected) => onChange(selected?.value)}
+                  value={options.find((c) => c.value === value)}
+                  options={options}
+                  placeholder="Select status"
+                />
+              </>
+            );
+          }}
+          rules={{ required: true }}
         />
       </Stack>
       <Stack margin="30px 10px">
-        <Button type="submit" data-testid="login" displayLabel="Create Task" />
+        <Button data-testid="login" displayLabel="Create Task" />
       </Stack>
       <DevTool control={control} />
     </form>

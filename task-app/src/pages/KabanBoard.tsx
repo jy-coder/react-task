@@ -8,8 +8,8 @@ export const KanbanBoard: React.FC<KanbanProps> = () => {
   const userId = '20ee7579-ded7-4940-9cfc-896dea4f9548';
   const defaultValue = {
     pending: [],
-    todo: [],
-    inProgress: []
+    inProgress: [],
+    completed: []
   };
 
   const { isLoading, data, isError, error, refetch } = useTasksData(userId, {
