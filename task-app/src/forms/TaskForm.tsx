@@ -12,6 +12,7 @@ import AppContext from '../context/AppContext';
 import { showSuccessToast } from '../utils/toast';
 import { queryClient } from '../utils/queryClient';
 import { SelectBox } from '../components/select/SelectBox';
+import { useAuth } from '../hooks/useAuth';
 
 interface ITaskFormProps {}
 interface IStatus {
@@ -27,7 +28,7 @@ const options: IStatus[] = [
 
 const TaskForm: React.FC<ITaskFormProps> = () => {
   const { setModalOpen } = useContext(AppContext);
-
+  const [userDetails, setUserDetails] = useAuth();
   const {
     handleSubmit,
     register,
@@ -50,9 +51,12 @@ const TaskForm: React.FC<ITaskFormProps> = () => {
   });
 
   const onSubmit = (taskInput: TaskInput) => {
+    if (!userDetails) {
+      return;
+    }
     const data = {
       ...taskInput,
-      userId: '20ee7579-ded7-4940-9cfc-896dea4f9548'
+      userId: userDetails.username
     };
     mutate(data);
   };
