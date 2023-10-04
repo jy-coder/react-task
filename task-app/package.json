@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aws-amplify/ui-react": "^5.3.1",
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/sortable": "^7.0.2",
     "@emotion/is-prop-valid": "^1.2.1",
@@ -12,10 +13,6 @@
     "@tanstack/react-query-devtools": "^4.32.1",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.39",
-    "@types/react": "^18.2.18",
-    "@types/react-dom": "^18.2.7",
     "axios": "^1.4.0",
     "babel-jest": "^29.6.2",
     "dotenv": "^16.3.1",
@@ -40,7 +37,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "dev": "webpack-dev-server --mode development",
+    "build": "webpack --mode production",
     "test": "jest",
     "eject": "react-scripts eject",
     "lint": "eslint --fix --ext .ts,.tsx ./src"
@@ -64,16 +62,25 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@babel/preset-env": "^7.22.9",
     "@testing-library/jest-dom": "^5.17.0",
+    "@types/jest": "^29.5.5",
+    "@types/node": "^20.8.2",
+    "@types/react": "^18.2.24",
+    "@types/react-dom": "^18.2.8",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "css-loader": "^6.8.1",
     "eslint": "^8.46.0",
     "eslint-config-standard-with-typescript": "^37.0.0",
     "eslint-plugin-import": "^2.28.0",
     "eslint-plugin-n": "^16.0.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.1",
-    "typescript": "^5.1.6"
+    "interpolate-html-plugin": "^4.0.0",
+    "style-loader": "^3.3.3",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   }
 }

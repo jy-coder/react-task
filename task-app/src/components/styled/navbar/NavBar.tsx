@@ -16,14 +16,14 @@ import { type User } from '../../../types';
 
 interface INavBarProps {
   navigation: {
-    left: { link: string; label: string }[];
-    right: { link: string; label: string }[];
+    left: { link: string; label: string; action?: () => void }[];
+    right: { link: string; label: string; action?: () => void }[];
   };
 }
 
 const NavBar: React.FC<INavBarProps> = ({ navigation }) => {
   const [extendNavbar, setExtendNavbar] = useState(false);
-  const { isAuth } = useContext<User>(UserContext);
+  // const { isAuth } = useContext<User>(UserContext);
 
   return (
     <NavbarContainer $extendNavbar={extendNavbar}>
@@ -46,16 +46,20 @@ const NavBar: React.FC<INavBarProps> = ({ navigation }) => {
         </LeftContainer>
         <RightContainer>
           {navigation.right.map((linkData, index) => (
-            <NavbarLink key={index} to={linkData.link}>
+            <NavbarLink
+              key={index}
+              to={linkData.link}
+              onClick={() => linkData?.action?.()}
+            >
               {linkData.label}
             </NavbarLink>
           ))}
-          {isAuth && (
+          {/* {isAuth && (
             <ProfileDropdown
               profileImage={'https://placehold.co/200x200'}
               options={['Profile', 'Settings', 'Logout']}
             />
-          )}
+          )} */}
         </RightContainer>
       </NavbarInnerContainer>
       {extendNavbar && (

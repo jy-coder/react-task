@@ -16,23 +16,23 @@ import Modal from '../components/styled/modal/Modal';
 import TaskForm from '../forms/TaskForm';
 import FlexItem from '../components/styled/flex/FlexItem.style';
 import { Plus } from 'tabler-icons-react';
-import { TaskResponse } from '../hooks/useTaskData';
 import { useMutation } from '@tanstack/react-query';
 import { updateTask } from '../api/taskApi';
-import { Task } from '../types';
+import { HashMap, Task, TaskResponse } from '../types';
 import { showSuccessToast } from '../utils/toast';
 import LoadingOverlay from 'react-loading-overlay-ts';
 import FlexWrapper from '../components/styled/flex/FlexWrapper';
 interface TaskBoardProps {
   tasks: TaskResponse;
+  keyMap: HashMap;
 }
 
-export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
+export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, keyMap }) => {
   const [items, setItems] = useState<TaskResponse>({});
   const [activeId, setActiveId] = useState<string | null>();
+  const taskTypeValues = Object.values(keyMap);
+  const taskKeys = Object.keys(keyMap);
 
-  const taskType = ['Pending', 'In Progress', 'Completed'];
-  const keyNames = ['pending', 'inProgress', 'completed'];
   const { mutate, isLoading: updateTaskIsLoading } = useMutation(updateTask, {
     onSuccess: () => {
       showSuccessToast('Task successfully updated', 'task-updated');
@@ -50,7 +50,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
 
   useEffect(() => {
     const updatedItems = { ...tasks };
-    keyNames.forEach((keyName) => {
+    taskKeys.forEach((keyName) => {
       if (!(keyName in updatedItems)) {
         updatedItems[keyName] = [];
       }
@@ -67,51 +67,6 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates
     })
-  );
-  return (
-    <LoadingOverlay active={updateTaskIsLoading} spinner>
-      <FlexWrapper>
-        <Modal
-          icon={<Plus />}
-          content={<TaskForm />}
-          footerDisplayLabel="Create Task"
-        />
-        <FlexWrapper flexDirection="row">
-          {taskType.map((type, index) => (
-            <FlexWrapper
-              key={index}
-              padding="10px"
-              height="1vh"
-              margin="10px"
-              flexDirection="row"
-            >
-              <FlexItem flex="50%"> {type}</FlexItem>
-              <FlexItem flex="50%" alignItems="flex-end"></FlexItem>
-            </FlexWrapper>
-          ))}
-        </FlexWrapper>
-        <FlexWrapper flexDirection="row">
-          <DndContext
-            id="dnd"
-            sensors={sensors}
-            collisionDetection={closestCorners}
-            onDragStart={handleDragStart}
-            onDragOver={handleDragOver}
-            onDragEnd={handleDragEnd}
-          >
-            <DraggableContainer id="pending" items={items?.pending ?? []} />
-            <DraggableContainer
-              id="inProgress"
-              items={items?.inProgress ?? []}
-            />
-            <DraggableContainer id="completed" items={items?.completed ?? []} />
-            <DragOverlay>
-              {activeId ? <Item id={activeId} /> : null}
-            </DragOverlay>
-          </DndContext>
-        </FlexWrapper>
-      </FlexWrapper>
-    </LoadingOverlay>
   );
 
   function findContainer(id: string) {
@@ -222,4 +177,50 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks }) => {
 
     setActiveId(null);
   }
+
+  return (
+    <LoadingOverlay active={updateTaskIsLoading} spinner>
+      <FlexWrapper>
+        <Modal
+          icon={<Plus />}
+          content={<TaskForm />}
+          footerDisplayLabel="Create Task"
+        />
+        <FlexWrapper flexDirection="row">
+          {taskTypeValues.map((type, index) => (
+            <FlexWrapper
+              key={index}
+              padding="10px"
+              height="1vh"
+              margin="10px"
+              flexDirection="row"
+            >
+              <FlexItem flex="50%"> {type}</FlexItem>
+              <FlexItem flex="50%" alignItems="flex-end"></FlexItem>
+            </FlexWrapper>
+          ))}
+        </FlexWrapper>
+        <FlexWrapper flexDirection="row">
+          <DndContext
+            id="dnd"
+            sensors={sensors}
+            collisionDetection={closestCorners}
+            onDragStart={handleDragStart}
+            onDragOver={handleDragOver}
+            onDragEnd={handleDragEnd}
+          >
+            <DraggableContainer id="pending" items={items?.pending ?? []} />
+            <DraggableContainer
+              id="inProgress"
+              items={items?.inProgress ?? []}
+            />
+            <DraggableContainer id="completed" items={items?.completed ?? []} />
+            <DragOverlay>
+              {activeId ? <Item id={activeId} /> : null}
+            </DragOverlay>
+          </DndContext>
+        </FlexWrapper>
+      </FlexWrapper>
+    </LoadingOverlay>
+  );
 };

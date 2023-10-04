@@ -1,20 +1,35 @@
-import { TaskResponse, useTasksData } from '../hooks/useTaskData';
+import { useAuth } from '../hooks/useAuth';
+import { useTasksData } from '../hooks/useTaskData';
+import { HashMap, TaskResponse } from '../types';
 import { TaskBoard } from './TaskBoard';
 
 interface KanbanProps {}
 
 export const KanbanBoard: React.FC<KanbanProps> = () => {
-  // TODO: Integrate with incognito
-  const userId = '20ee7579-ded7-4940-9cfc-896dea4f9548';
-  const defaultValue = {
-    pending: [],
-    inProgress: [],
-    completed: []
+  const [userDetails, setUserDetails] = useAuth();
+  const keyMap: HashMap = {
+    pending: 'Pending',
+    inProgress: 'In Progress',
+    completed: 'Completed'
   };
 
-  const { isLoading, data, isError, error, refetch } = useTasksData(userId, {
-    refetchOnWindowFocus: false
-  });
+  const { isLoading, data, isError, error, refetch } = useTasksData(
+    userDetails?.username ?? '',
+    {
+      refetchOnWindowFocus: false,
+      enabled: !!userDetails
+    }
+  );
 
-  return <TaskBoard tasks={data ?? defaultValue} />;
+  const defaultValue: TaskResponse = {};
+
+  for (const key of Object.keys(keyMap)) {
+    defaultValue[key] = [];
+  }
+
+  if (!userDetails) {
+    return null;
+  }
+
+  return <TaskBoard tasks={data ?? defaultValue} keyMap={keyMap} />;
 };

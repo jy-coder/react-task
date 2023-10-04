@@ -29,3 +29,9 @@ export interface Task {
   status: string;
   createDate?: string;
 }
+
+export interface TaskResponse {
+  [taskId: string]: Task[];
+}
+
+export type HashMap = { [key: string]: string };
