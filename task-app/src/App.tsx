@@ -12,7 +12,7 @@ import { QueryBoundaries } from './suspense/QueryBoundaries';
 import { Fragment, useContext } from 'react';
 // import RegisterForm from './forms/RegisterForm';
 // import ProtectedRoute from './route/ProtectedRoute';
-import GlobalStyle from './provider/globalStyles';
+import GlobalStyle from './config/globalStyles';
 import { KanbanBoard } from './pages/KabanBoard';
 import { queryClient } from './utils/queryClient';
 import { Authenticator, withAuthenticator } from '@aws-amplify/ui-react';
@@ -20,7 +20,7 @@ import { Amplify } from 'aws-amplify';
 import awsExports from './aws-exports';
 import '@aws-amplify/ui-react/styles.css';
 import AmplifyProvider from './provider/AmplifyProvider';
-import { formFields } from './config/AmplifyFormField';
+import { formFields } from './config/amplifyFormField';
 
 Amplify.configure(awsExports);
 
