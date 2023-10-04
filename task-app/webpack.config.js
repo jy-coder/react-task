@@ -1,8 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
-const dotenv = require('dotenv');
-const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 module.exports = {
   entry: './src/index.tsx',
   output: {
@@ -22,7 +21,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx', '.ts', '.tsx']
+    extensions: ['*', '.ts', '.tsx']
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -31,9 +30,7 @@ module.exports = {
     new InterpolateHtmlPlugin({
       PUBLIC_URL: 'static'
     }),
-    new webpack.DefinePlugin({
-      'process.env': JSON.stringify(process.env)
-    })
+    new Dotenv()
   ],
   devServer: {
     static: {
