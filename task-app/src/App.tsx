@@ -20,7 +20,7 @@ import { Amplify } from 'aws-amplify';
 import awsExports from './aws-exports';
 import '@aws-amplify/ui-react/styles.css';
 import AmplifyProvider from './provider/AmplifyProvider';
-import { formFields } from './config/amplifyFormField';
+import { formFields } from './config/AmplifyFormField';
 
 Amplify.configure(awsExports);
 
