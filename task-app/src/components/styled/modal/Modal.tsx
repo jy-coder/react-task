@@ -35,17 +35,17 @@ interface ModalProps {
   content: JSX.Element;
   icon?: JSX.Element;
   footerDisplayLabel?: string;
+  style?: React.CSSProperties;
 }
 
 const Modal: React.FC<ModalProps> = ({ content, icon, footerDisplayLabel }) => {
   // const [modalOpen, setModalOpen] = useState(false);
   const { modalOpen, setModalOpen } = useContext(AppContext);
   return (
-    <div className="Modal">
+    <div>
       <Button
         icon={icon}
-        color=""
-        // className="openModalBtn"
+        color="#1a2332"
         onClick={() => {
           setModalOpen(true);
         }}

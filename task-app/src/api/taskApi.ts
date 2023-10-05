@@ -1,7 +1,9 @@
 import { AxiosRequest } from '../interceptor/http';
 import { Task, TaskInput } from '../types';
 
-const taskApi = new AxiosRequest(process.env.REACT_APP_LAMBDDA_URL ?? '');
+export const taskApi = new AxiosRequest(
+  process.env.REACT_APP_LAMBDDA_URL ?? ''
+);
 
 interface TaskResponse {
   todo?: Task[];
@@ -24,11 +26,15 @@ export const createTask = async (
   return response;
 };
 
-export const updateTask = async (
-  taskData: TaskInput
-): Promise<TaskResponse> => {
+export const updateTask = async ({
+  taskData,
+  taskId
+}: {
+  taskData: TaskInput;
+  taskId: string;
+}): Promise<TaskResponse> => {
   const response = await taskApi.put<TaskResponse>(
-    `api/v1/task/${taskData.taskId}`,
+    `api/v1/task/${taskId}`,
     taskData
   );
 

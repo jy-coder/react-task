@@ -18,7 +18,7 @@ import FlexItem from '../components/styled/flex/FlexItem.style';
 import { Plus } from 'tabler-icons-react';
 import { useMutation } from '@tanstack/react-query';
 import { updateTask } from '../api/taskApi';
-import { HashMap, Task, TaskResponse } from '../types';
+import { HashMap, Task, TaskAction, TaskResponse } from '../types';
 import { showSuccessToast } from '../utils/toast';
 import LoadingOverlay from 'react-loading-overlay-ts';
 import FlexWrapper from '../components/styled/flex/FlexWrapper';
@@ -40,12 +40,12 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, keyMap }) => {
   });
 
   const updateStatus = (status: string, activeTask: Task) => {
-    const { createDate, ...taskInput } = activeTask;
+    const { createDate, taskId, ...taskInput } = activeTask;
     const data = {
       ...taskInput,
       status
     };
-    mutate(data);
+    mutate({ taskData: data, taskId });
   };
 
   useEffect(() => {
@@ -183,7 +183,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, keyMap }) => {
       <FlexWrapper>
         <Modal
           icon={<Plus />}
-          content={<TaskForm />}
+          content={<TaskForm taskAction={TaskAction.Create} />}
           footerDisplayLabel="Create Task"
         />
         <FlexWrapper flexDirection="row">

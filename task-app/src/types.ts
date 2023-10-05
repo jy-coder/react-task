@@ -28,6 +28,7 @@ export interface Task {
   description: string;
   status: string;
   createDate?: string;
+  userId: string;
 }
 
 export interface TaskResponse {
@@ -35,3 +36,8 @@ export interface TaskResponse {
 }
 
 export type HashMap = { [key: string]: string };
+
+export enum TaskAction {
+  Update = 'update',
+  Create = 'create'
+}

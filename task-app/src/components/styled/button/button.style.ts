@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   icon?: React.ReactNode;
   displayLabel?: string;
-  onClick?: () => void;
 }
 
 export const StyledButton = styled.button<ButtonProps>`
