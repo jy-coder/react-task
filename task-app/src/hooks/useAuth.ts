@@ -1,10 +1,12 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Auth, Hub } from 'aws-amplify';
+import { taskApi } from '../api/taskApi';
 
 export interface UserDetails {
   username: string;
   email: string;
   name: string;
+  token?: string;
 }
 
 export const useAuth = (): [
@@ -19,14 +21,17 @@ export const useAuth = (): [
     const getUserDetails = async () => {
       try {
         if (userDetails === null) {
-          const { username, attributes } =
+          const { username, attributes, signInUserSession } =
             (await Auth.currentAuthenticatedUser()) || null;
           setUserDetails({
             username,
             email: attributes?.email,
-            name: attributes?.name
+            name: attributes?.name,
+            token: signInUserSession.idToken.jwtToken
           });
           setIsAuthenticated(true);
+          // Set token here
+          taskApi.setAuthToken(signInUserSession.idToken.jwtToken);
         }
       } catch {
         setUserDetails(null);
@@ -38,7 +43,6 @@ export const useAuth = (): [
     Hub.listen('auth', (data) => {
       switch (data.payload.event) {
         case 'signIn':
-          console.log('user signed in');
           getUserDetails();
           break;
         case 'signUp':
