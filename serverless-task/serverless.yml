@@ -1,6 +1,6 @@
 service: aws-node-project
 frameworkVersion: "3"
-
+useDotenv: true
 provider:
   name: aws
   runtime: nodejs18.x
@@ -9,7 +9,6 @@ provider:
   environment:
     USER_TABLE: Users
     TASK_TABLE: Tasks
-    userPoolId: ${env:COGNITO_USER_POOLS}
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -28,7 +27,7 @@ provider:
         - cognito-idp:ListUserPools
         - cognito-idp:ListUsers
       Resource:
-        - "arn:aws:cognito-idp:${self:provider.region}:*:userpool/${env:userPoolId}"
+        - arn:aws:cognito-idp:${self:provider.region}:${env:IAM}:userpool/${env:COGNITO_USER_POOLS}
 
 plugins:
   - serverless-dynamodb
