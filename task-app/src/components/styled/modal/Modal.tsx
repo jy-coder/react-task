@@ -1,16 +1,19 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './modal.css';
 import { Button } from '../button/Button';
 import AppContext from '../../../context/AppContext';
 
 interface DialogProps {
-  // setOpenModal: (value: boolean) => void;
   content?: JSX.Element;
   footerDisplayLabel?: string;
+  setModalOpen: (open: boolean) => void;
 }
 
-const Dialog: React.FC<DialogProps> = ({ content, footerDisplayLabel }) => {
-  const { setModalOpen } = useContext(AppContext);
+const Dialog: React.FC<DialogProps> = ({
+  content,
+  footerDisplayLabel,
+  setModalOpen
+}) => {
   return (
     <div className="modalBackground">
       <div className="modalContainer">
@@ -36,11 +39,17 @@ interface ModalProps {
   icon?: JSX.Element;
   footerDisplayLabel?: string;
   style?: React.CSSProperties;
+  modalOpen: boolean;
+  setModalOpen: (click: boolean) => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ content, icon, footerDisplayLabel }) => {
-  // const [modalOpen, setModalOpen] = useState(false);
-  const { modalOpen, setModalOpen } = useContext(AppContext);
+const Modal: React.FC<ModalProps> = ({
+  content,
+  icon,
+  footerDisplayLabel,
+  modalOpen,
+  setModalOpen
+}) => {
   return (
     <div>
       <Button
@@ -52,6 +61,7 @@ const Modal: React.FC<ModalProps> = ({ content, icon, footerDisplayLabel }) => {
       ></Button>
       {modalOpen && (
         <Dialog
+          setModalOpen={setModalOpen}
           content={content}
           footerDisplayLabel={footerDisplayLabel ?? ''}
         />

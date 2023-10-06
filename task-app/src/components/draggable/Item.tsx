@@ -7,8 +7,10 @@ import { showSuccessToast } from '../../utils/toast';
 import { queryClient } from '../../utils/queryClient';
 
 import Modal from '../styled/modal/Modal';
-import TaskForm from '../../forms/TaskForm';
 import { Task, TaskAction } from '../../types';
+import TaskUpdateForm from '../../forms/TaskUpdateForm';
+import { useContext, useEffect, useState } from 'react';
+import AppContext from '../../context/AppContext';
 
 interface ItemProps {
   id: string;
@@ -23,6 +25,7 @@ export const Item: React.FC<ItemProps> = ({ id, task }) => {
         queryClient.invalidateQueries(['user-tasks']);
       }
     });
+  const { modalOpen, setModalOpen } = useContext(AppContext);
 
   return (
     <FlexWrapper
@@ -44,11 +47,12 @@ export const Item: React.FC<ItemProps> = ({ id, task }) => {
           }}
         >
           <Modal
+            setModalOpen={setModalOpen}
+            modalOpen={modalOpen}
             icon={<Pencil />}
             content={
-              <TaskForm taskAction={TaskAction.Update} taskData={task} />
+              <TaskUpdateForm taskData={task} setModalOpen={setModalOpen} />
             }
-            footerDisplayLabel="Update Task"
           />
           <div
             style={{

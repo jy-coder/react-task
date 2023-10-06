@@ -13,7 +13,6 @@ import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { DraggableContainer } from '../components/draggable/DraggableContainer';
 import { Item } from '../components/draggable/Item';
 import Modal from '../components/styled/modal/Modal';
-import TaskForm from '../forms/TaskForm';
 import FlexItem from '../components/styled/flex/FlexItem.style';
 import { Plus } from 'tabler-icons-react';
 import { useMutation } from '@tanstack/react-query';
@@ -22,6 +21,7 @@ import { HashMap, Task, TaskAction, TaskResponse } from '../types';
 import { showSuccessToast } from '../utils/toast';
 import LoadingOverlay from 'react-loading-overlay-ts';
 import FlexWrapper from '../components/styled/flex/FlexWrapper';
+import TaskCreateForm from '../forms/TaskCreateForm';
 interface TaskBoardProps {
   tasks: TaskResponse;
   keyMap: HashMap;
@@ -30,6 +30,7 @@ interface TaskBoardProps {
 export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, keyMap }) => {
   const [items, setItems] = useState<TaskResponse>({});
   const [activeId, setActiveId] = useState<string | null>();
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const taskTypeValues = Object.values(keyMap);
   const taskKeys = Object.keys(keyMap);
 
@@ -183,8 +184,9 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, keyMap }) => {
       <FlexWrapper>
         <Modal
           icon={<Plus />}
-          content={<TaskForm taskAction={TaskAction.Create} />}
-          footerDisplayLabel="Create Task"
+          content={<TaskCreateForm setModalOpen={setModalOpen} />}
+          setModalOpen={setModalOpen}
+          modalOpen={modalOpen}
         />
         <FlexWrapper flexDirection="row">
           {taskTypeValues.map((type, index) => (

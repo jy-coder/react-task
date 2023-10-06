@@ -7,7 +7,13 @@ import { Task, TaskAction, TaskInput } from '../types';
 import { createTask, updateTask } from '../api/taskApi';
 import { Button } from '../components/styled/button/Button';
 import Stack from '../components/styled/stack/Stack';
-import { useContext, useEffect } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState
+} from 'react';
 import AppContext from '../context/AppContext';
 import { showSuccessToast } from '../utils/toast';
 import { queryClient } from '../utils/queryClient';
@@ -15,8 +21,8 @@ import { SelectBox } from '../components/select/SelectBox';
 import { useAuth } from '../hooks/useAuth';
 
 interface ITaskFormProps {
-  taskAction: TaskAction;
   taskData?: Task;
+  setModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 interface IStatus {
   value: string;
@@ -29,9 +35,12 @@ const options: IStatus[] = [
   { value: 'completed', label: 'Completed' }
 ];
 
-const TaskForm: React.FC<ITaskFormProps> = ({ taskAction, taskData }) => {
-  const { setModalOpen } = useContext(AppContext);
+const TaskUpdateForm: React.FC<ITaskFormProps> = ({
+  taskData,
+  setModalOpen
+}) => {
   const [userDetails, setUserDetails] = useAuth();
+  //   console.log('update task form render');
   const {
     handleSubmit,
     register,
@@ -46,14 +55,6 @@ const TaskForm: React.FC<ITaskFormProps> = ({ taskAction, taskData }) => {
     }
   });
 
-  const { mutate: createTaskMutate } = useMutation(createTask, {
-    onSuccess: () => {
-      showSuccessToast('Task created successfully', 'task-created');
-      setModalOpen(false);
-      queryClient.invalidateQueries(['user-tasks']);
-    }
-  });
-
   const { mutate: updateTaskMutate } = useMutation(updateTask, {
     onSuccess: () => {
       showSuccessToast('Task successfully updated', 'task-updated');
@@ -65,34 +66,24 @@ const TaskForm: React.FC<ITaskFormProps> = ({ taskAction, taskData }) => {
     if (!taskData) {
       return;
     }
-
     const { name, description, status } = taskData;
-    if (taskAction === TaskAction.Update) {
-      setValue('name', name);
-      setValue('description', description);
-      setValue('status', status);
-    }
-  }, [taskAction]);
+    setValue('name', name);
+    setValue('description', description);
+    setValue('status', status);
+  }, [taskData]);
 
   const onSubmit = (taskInput: TaskInput) => {
-    if (!taskData) {
-      return;
-    }
-    console.log(taskInput);
-    if (!userDetails) {
+    if (!taskData || !userDetails) {
       return;
     }
     const data = {
       ...taskInput,
       userId: userDetails.username
     };
-    if (taskAction === TaskAction.Create) {
-      createTaskMutate(data);
-    } else if (taskAction === TaskAction.Update) {
-      const { taskId, userId } = taskData;
-      const updatedTask = { ...data, userId };
-      updateTaskMutate({ taskData: updatedTask, taskId });
-    }
+
+    const { taskId, userId } = taskData;
+    const updatedTask = { ...data, userId };
+    updateTaskMutate({ taskData: updatedTask, taskId });
     setModalOpen(false);
   };
 
@@ -145,20 +136,11 @@ const TaskForm: React.FC<ITaskFormProps> = ({ taskAction, taskData }) => {
         />
       </Stack>
       <Stack margin="30px 10px">
-        <Button
-          type="submit"
-          displayLabel={
-            taskAction === TaskAction.Create
-              ? 'Create Task'
-              : taskAction === TaskAction.Update
-              ? 'Update Task'
-              : ''
-          }
-        />
+        <Button type="submit" displayLabel="Update Task" />
       </Stack>
       <DevTool control={control} />
     </form>
   );
 };
 
-export default TaskForm;
+export default TaskUpdateForm;

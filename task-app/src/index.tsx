@@ -6,17 +6,21 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { StyleSheetManager } from 'styled-components';
 import isPropValid from '@emotion/is-prop-valid';
+// import { Provider as ReduxProvider } from 'react-redux/es/exports';
+// import { store } from './redux/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
+    {/* <ReduxProvider store={store}> */}
     <BrowserRouter>
       <StyleSheetManager shouldForwardProp={isPropValid}>
         <App />
       </StyleSheetManager>
     </BrowserRouter>
+    {/* </ReduxProvider> */}
   </React.StrictMode>
 );
 
